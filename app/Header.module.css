@@ -1,0 +1,104 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--cream);
+  border-bottom: 1px solid var(--sage);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4rem;
+  gap: 1.5rem;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--forest);
+  text-decoration: none;
+}
+
+.desktopNav,
+.actions {
+  display: none;
+}
+
+.desktopNav a {
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0.25rem;
+}
+.desktopNav a:hover {
+  color: var(--forest);
+  text-decoration: underline;
+  text-decoration-color: var(--clay);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+.login {
+  font-weight: 600;
+  color: var(--forest);
+  text-decoration: none;
+  padding: 0.5rem;
+}
+.login:hover {
+  text-decoration: underline;
+}
+
+.menuButton {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 2px solid var(--forest);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--forest);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mobileMenu {
+  background: var(--sage);
+  border-top: 1px solid var(--forest);
+  padding-block: 1rem 1.5rem;
+}
+.mobileMenu .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.mobileMenu a:not(:global(.btn)) {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(23, 76, 60, 0.15);
+}
+.mobileMenu :global(.btn) {
+  margin-top: 1rem;
+}
+
+@media (min-width: 56rem) {
+  .desktopNav {
+    display: flex;
+    gap: 1.5rem;
+    margin-right: auto;
+    margin-left: 1rem;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .menuButton,
+  .mobileMenu {
+    display: none;
+  }
+}
