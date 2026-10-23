@@ -1,6 +1,7 @@
 # Shugli
 
 A jobs marketplace where employers post jobs and applicants and workers find them.
+Shugli is a platform connecting employers with trusted local service providers (Blue Collar) as well as White Collar suited individuals in Kenya.
 
 ## Stack
 
