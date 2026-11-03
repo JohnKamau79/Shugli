@@ -114,3 +114,53 @@ Create `app/api/logout/route.ts` (POST) that calls `deleteSession()`.
 ```bash
 npm run dev
 ```
+
+
+## API
+
+Routes that change data need a logged-in user. The user always comes from the session, never from the request body.
+
+### Cities
+- `GET /api/cities`: list all cities
+- `POST /api/cities`: add a city (duplicate names return 409)
+- `PATCH /api/cities/[id]`: rename a city
+- `DELETE /api/cities/[id]`: delete a city
+
+### Categories
+- `GET /api/categories`: list all categories
+- `POST /api/categories`: add a category
+- `PATCH /api/categories/[id]`: rename a category
+- `DELETE /api/categories/[id]`: delete a category
+
+### Skills
+- `GET /api/skills`: list all skills
+- `POST /api/skills`: add a skill
+- `PATCH /api/skills/[id]`: rename a skill
+- `DELETE /api/skills/[id]`: delete a skill
+
+### Jobs
+- `GET /api/jobs`: list jobs, newest first, expired ones hidden. Optional filters: `?cityId=`, `?categoryId=`, `?jobType=`. Public.
+- `POST /api/jobs`: post a job. Employers only.
+- `PATCH /api/jobs/[id]`: edit a job. Only the employer who posted it.
+- `DELETE /api/jobs/[id]`: delete a job and its applications. Only the employer who posted it.
+
+### Worker profile
+Each user has at most one profile, so these routes use the session and take no id.
+- `GET /api/worker-profile`: get your own profile
+- `POST /api/worker-profile`: create your profile
+- `PATCH /api/worker-profile`: update your profile
+- `DELETE /api/worker-profile`: delete your profile
+
+### Applications
+- `POST /api/jobs/[id]/apply`: apply to a job (no body needed). You can't apply to your own job, to an expired job, or twice to the same job.
+- `GET /api/applications`: list your own applications, with job details
+- `GET /api/jobs/[id]/applications`: list applicants for a job. Only the employer who posted it.
+- `PATCH /api/applications/[id]`: set the status to `Shortlisted` or `Rejected`. Only the employer who owns the job.
+
+Applicants cannot delete their applications for now.
+
+### Status codes
+- `401`: not logged in
+- `403`: logged in but not allowed
+- `404`: not found
+- `409`: duplicate (already exists or already applied)
