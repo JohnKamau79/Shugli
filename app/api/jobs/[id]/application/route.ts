@@ -39,26 +39,34 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         }
         throw e;
     }
-
-
 }
 
 
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const session = await getSession();
+    if (!session) {
+        return Response.json({ error: "Not logged in" }, { status: 401 });
+    }
 
-// export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
-//     const { id } = await params;
-//     const jobId = Number(id);
+    const { id } = await params;
+    const jobId = Number(id);
 
-//     await prisma.jobs.delete({ where: { id: jobId } });
-//     return Response.json("Deleted successfully", { status: 200 });
+    const applications = await prisma.application.findMany({
+        where: {
+            jobId: jobId,
+            userId: session.userId,
+        },
+        include: {
+            job: {
+                select: { title: true, jobType: true, city: { select: { name: true } }, category: { select: { name: true } }, salary: true, employer: { select: { firstName: true, lastName: true } }, createdAt: true }
+            },
+            // city: {select: name: true},
+        }
+    });
 
-// }
+    if (!applications) {
+        return Response.json({ error: "No applications available for this job!" }, { status: 404 });
+    }
 
-
-// id        Int      @id @default(autoincrement())
-//   userId    Int
-//   user      Users    @relation(fields: [userId], references: [id])
-//   jobId     Int
-//   job       Jobs     @relation(fields: [jobId], references: [id])
-//   createdAt DateTime @default(now())
-//   status    Status   @default(Pending)
+    return Response.json(applications, { status: 200 });
+}

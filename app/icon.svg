@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Shugli site icon</title>
+  <rect width="512" height="512" rx="112" fill="#174C3C"/>
+  <path d="M344 153c-22-24-52-36-91-36-60 0-101 31-101 79 0 46 35 66 94 79l29 6c34 7 48 16 48 33 0 20-20 33-55 33-34 0-61-12-84-35l-47 47c33 34 78 52 132 52 70 0 116-33 116-86 0-45-29-69-91-83l-37-8c-31-7-43-14-43-29 0-17 17-27 45-27 27 0 48 8 67 25l48-50Z" fill="#FAF6EE"/>
+  <circle cx="371" cy="131" r="31" fill="#C96F4A"/>
+</svg>

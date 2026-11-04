@@ -1,43 +1,63 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAF6EE;
-  --foreground: #252A27;
-  --primary: #174C3C;
-  --accent: #C96F4A;
-  --surface: #DCE8DF;
+  --background: #FAF6EE; /* background */
+  --foreground: #252A27; /* text */
+  --primary: #174C3C; /*button/link */
+  --primary-hover: #10382C;
+  --primary-foreground: #FAF6EE; /* button text */
+  --accent: #C96F4A; /* highlights/labels */
+  --accent-foreground: #FAF6EE; /* accent text */
+  --surface: #DCE8DF; /* soft panels/ cards */
 }
 
 @theme inline {
-  --color-primary: var(--primary);
-  --color-accent: var(--accent);
-  --color-surface: var(--surface);
-}
-
-@media(prefers-color-scheme: dark) {
-  :root {
-    --background: #17231D;
-    --foreground: #F5F1E8;
-    --surface: #26372E;
-  }
-}
-
-/* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface: var(--surface);
+  --color-border: var(--surface);
+  --font-sans: var(--font-inter);
+  --font-logo: var(--font-fraunces);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
+/* body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+}  */
+
+
+.btn-primary {
+  @apply border px-3 bg-primary text-primary-foreground rounded-xl transition-all duration-200 hover:bg-primary-hover;
+}
+
+.input {
+  @apply border rounded-lg border-primary pl-2 text-lg font-semibold bg-background ;
+}
+
+.formBtn {
+  @apply bg-primary text-primary-foreground font-bold p-1 rounded-xl;
+}
+
+/* :root {
+  --forest: #174C3C;
+  --clay: #C96F4A;
+  --cream: #FAF6EE;
+  --charcoal: #252A27;
+  --sage: #DCE8DF;
+}
+
+@theme inline {
+  --color-background: var(--cream);
+  --color-foreground: var(--charcoal);
+  --color-primary: var(--forest);
+  --color-primary-foreground: var(--cream);
+  --color-accent: var(--clay);
+  --color-accent-foreground: var(--cream);
+  --color-surface: var(--sage);
+  --color-border: var(--sage);
+  --font-sans: var(--font-inter); */

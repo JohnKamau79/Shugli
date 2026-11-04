@@ -20,19 +20,3 @@ export async function GET() {
 
     return Response.json(applications, { status: 200 });
 }
-
-// id           Int           @id @default(autoincrement())
-//   title        String
-//   jobType      JobType
-//   description  String
-//   cityId       Int
-//   city         City          @relation(fields: [cityId], references: [id])
-//   categoryId   Int
-//   category     Category      @relation(fields: [categoryId], references: [id])
-//   salary       Int?
-//   userId       Int
-//   employer     Users         @relation(fields: [userId], references: [id])
-//   createdAt    DateTime      @default(now())
-//   updatedAt    DateTime      @updatedAt
-//   expiresAt    DateTime?
-//   applications Application[]

@@ -164,3 +164,45 @@ Applicants cannot delete their applications for now.
 - `403`: logged in but not allowed
 - `404`: not found
 - `409`: duplicate (already exists or already applied)
+
+
+## Iconc
+```bash
+npm install lucide-react
+```
+
+
+### Raw data
+
+# workerProfile
+[
+  { "headline": "Experienced carpenter", "bio": "I build furniture and roof frames.", "yoe": 6, "categoryId": 2 },
+  { "headline": "Self-taught web developer", "bio": "I build small business websites.", "yoe": 2, "categoryId": 5 }
+]
+
+# job
+[
+  { "title": "Shop Cashier", "jobType": "Onsite", "description": "Handle payments and serve customers", "cityId": 1, "categoryId": 1, "salary": 25000 },
+  { "title": "Site Carpenter", "jobType": "Onsite", "description": "Build and fit wooden frames", "cityId": 3, "categoryId": 2, "salary": 35000 },
+  { "title": "Junior Web Developer", "jobType": "Remote", "description": "Build and maintain web pages", "cityId": 1, "categoryId": 5, "salary": 60000 },
+  { "title": "Delivery Driver", "jobType": "Hybrid", "description": "Deliver orders around town", "cityId": 4, "categoryId": 4 }
+]
+
+# user
+[
+  { "firstName": "Wanjiku", "lastName": "Kamau", "email": "wanjiku@test.com", "phone": "0711000001", "password": "password123", "gender": "Female", "role": "Employer", "cityId": 1 },
+  { "firstName": "Otieno", "lastName": "Odhiambo", "email": "otieno@test.com", "phone": "0711000002", "password": "password123", "gender": "Male", "role": "Employer", "cityId": 3 },
+  { "firstName": "Amina", "lastName": "Hassan", "email": "amina@test.com", "phone": "0711000003", "password": "password123", "gender": "Female", "role": "Applicant", "cityId": 2 },
+  { "firstName": "Brian", "lastName": "Mutua", "email": "brian@test.com", "phone": "0711000004", "password": "password123", "gender": "Male", "role": "Worker", "cityId": 1 },
+  { "firstName": "Faith", "lastName": "Chebet", "email": "faith@test.com", "phone": "0711000005", "password": "password123", "gender": "Other", "role": "Worker", "cityId": 5 }
+]
+
+# skills
+[{ "name": "Customer service" }, { "name": "Carpentry" }, { "name": "Cooking" }, { "name": "Driving" }, { "name": "JavaScript" }]
+
+# category
+[{ "name": "Retail" }, { "name": "Construction" }, { "name": "Hospitality" }, { "name": "Transport" }, { "name": "IT" }]
+
+# cities
+[{ "name": "Nairobi" }, { "name": "Mombasa" }, { "name": "Kisumu" }, { "name": "Nakuru" }, { "name": "Eldoret" }]
+
