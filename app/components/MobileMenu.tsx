@@ -20,16 +20,16 @@ export default function MobileMenu({ links, isLoggedIn }: { links: { href: strin
             </button>
 
             {open && (
-                <nav className="absolute inset-x-0 flex flex-col gap-3 border-b border-border bg-accent/95 p-1">
+                <nav className="absolute inset-x-0 flex flex-col border-b border-border bg-foreground/95 p-1 text-background">
                     {links.map((link) => (
-                        <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+                        <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className="border-b border-border transition-all duration-300 hover:text-foreground hover:bg-background">
                             {link.label}
                         </Link>
                     ))}
                     {isLoggedIn ?
                         <LogoutButton />
                         :
-                        <Link href={'/'} onClick={() => setOpen(false)}>Log In</Link>
+                        <Link href={'../auth/LoginPage'} onClick={() => setOpen(false)}>Log In</Link>
                     }
                 </nav>
             )}

@@ -166,9 +166,14 @@ Applicants cannot delete their applications for now.
 - `409`: duplicate (already exists or already applied)
 
 
-## Iconc
+## Icons
 ```bash
 npm install lucide-react
+```
+
+## Phone Numbers
+```bash
+npm i react-phone-number-impact
 ```
 
 
@@ -205,4 +210,3 @@ npm install lucide-react
 
 # cities
 [{ "name": "Nairobi" }, { "name": "Mombasa" }, { "name": "Kisumu" }, { "name": "Nakuru" }, { "name": "Eldoret" }]
-

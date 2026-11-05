@@ -43,21 +43,13 @@
   @apply bg-primary text-primary-foreground font-bold p-1 rounded-xl;
 }
 
-/* :root {
-  --forest: #174C3C;
-  --clay: #C96F4A;
-  --cream: #FAF6EE;
-  --charcoal: #252A27;
-  --sage: #DCE8DF;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px)
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0)
+  }
 }
-
-@theme inline {
-  --color-background: var(--cream);
-  --color-foreground: var(--charcoal);
-  --color-primary: var(--forest);
-  --color-primary-foreground: var(--cream);
-  --color-accent: var(--clay);
-  --color-accent-foreground: var(--cream);
-  --color-surface: var(--sage);
-  --color-border: var(--sage);
-  --font-sans: var(--font-inter); */

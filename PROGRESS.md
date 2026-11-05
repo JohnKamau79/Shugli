@@ -13,6 +13,9 @@
 - Set up themes/fonts
 - Created header and login page
 
+## 05/11/2026
+- Created part landing page/ part signup/ part categories page 
+
 #
 _Next up--- complete the application api for employer and api's that need to be viisible for all in ui and also admin for RBAC. Also delete user logic.
 

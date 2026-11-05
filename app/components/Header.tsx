@@ -9,6 +9,7 @@ import LogoutButton from "./LogoutButton";
 const links = [
   { href: "/jobs", label: "Find a Job" },
   { href: "/workers", label: "Find a Worker" },
+  { href: "/post", label: "Post a Job" },
 ]
 
 export default async function Header() {
@@ -28,7 +29,7 @@ export default async function Header() {
             </NavLink>
           ))}
           {!session ?
-            <Button href="../auth/login">Log In</Button>
+            <Button href="../auth/LoginPage">Log In</Button>
             :
             <LogoutButton className="btn-primary" />
           }
