@@ -1,9 +1,17 @@
 import { prisma } from "@/src/lib/db/prisma"
 import Link from "next/link";
 import { ArrowRight, CheckCircle, ChevronRight, MoveRight } from "lucide-react";
+import LatestJobs from "./components/LatestJobs";
+import PlatformPricing from "./components/PlatformPricing";
 
 
 export default async function Home() {
+    const stats = [
+        { value: "899", label: "Total Employers" },
+        { value: "899", label: "Total Jobs" },
+        { value: "899", label: "Active Jobs" },
+        { value: "899", label: "Total Users" },
+    ];
     const jobs = await prisma.jobs.findMany({
         orderBy: { id: "desc" }
     });
@@ -30,66 +38,57 @@ export default async function Home() {
                 </div>
             </section>
 
-            <section className="h-screen flex justify-center items-center bg-primary text-primary-foreground">
-                <table className="bg-foreground/30">
-                    <tr className="flex text-3xl font-logo">
-                        <td className="flex flex-col items-center justify-center gap-3 border border-accent/15 w-1/2 p-3 px-40 text-center">Total Employers <span>899+</span></td>
-                        <td className="flex flex-col items-center justify-center gap-3 border border-accent/15 w-1/2 p-3 px-40 text-center">Total Jobs <span>899+</span></td>
-                    </tr>
-
-                    <tr className="flex text-3xl font-logo">
-                        <td className="flex flex-col items-center justify-center gap-3 border border-accent/15 w-1/2 p-3 px-40 text-center">Active Jobs <span>899+</span></td>
-                        <td className="flex flex-col items-center justify-center gap-3 border border-accent/15 w-1/2 p-3 px-40 text-center">Total Users <span>899+</span></td>
-                    </tr>
-                </table>
+            <section className="bg-primary px-6 py-28 text-primary-foreground">
+                <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-16 md:grid-cols-4 md:divide-x md:divide-primary-foreground/20">
+                    {stats.map((stat) => (
+                        <div key={stat.label} className="flex flex-col items-center gap-4 px-8 text-center">
+                            <span className="font-logo text-6xl font-bold">
+                                {stat.value}
+                                <span className="text-accent">+</span>
+                            </span>
+                            <span className="text-sm uppercase tracking-wide text-primary-foreground/70">
+                                {stat.label}
+                            </span>
+                        </div>
+                    ))}
+                </div>
             </section>
 
+            {/* CATEGORIES */}
+            <section className="mx-auto max-w-6xl px-6 py-24">
+                <h2 className="text-center font-heading text-4xl font-extrabold text-primary">
+                    Popular job categories
+                </h2>
+                <p className="mt-3 text-center text-foreground/70">
+                    Browse jobs by the kind of work you do
+                </p>
 
-            <section className="h-screen">
-                <h1 className="text-center text-4xl font-extrabold mt-6 text-primary">Popular Job Categories</h1>
-                {categories.length === 0 ? (<p>No categories yet</p>) :
-                    (
-                        <ul className="flex flex-wrap items-cent">
-                            {categories.map((category) => (
-                                <li key={category.id} className="flex gap-3 border border-primary/50 text-accent transition-all duration-300 hover:bg-primary/40 m-1 rounded-xl p-5 min-w-85 text-xl font-semibold "><Link href={'../app/jobs'}>{category.name} <ArrowRight /></Link></li>
-                            ))}
-                        </ul>
-                    )
-                }
-            </section>
-
-
-            <section className="h-screen">
-                <h1 className="text-center text-4xl font-extrabold mt-6 text-primary">Latest Jobs</h1>
-            </section>
-
-            <section className="h-screen">
-                <h1 className="text-center text-4xl font-extrabold mt-6 text-primary">Featured Jobs</h1>
-            </section>
-
-            <section className="h-screen">
-                <h1 className="text-center text-4xl font-extrabold mt-6 text-primary">Platform Pricing</h1>
-            </section>
-
-            <section className="h-screen">
-                <h1 className="text-center text-4xl font-extrabold mt-6 text-primary">User Reviews</h1>
-            </section>
-
-
-            <section>
-                <h1>Latest Jobs</h1>
-                {jobs.length === 0 ? (
-                    <p>No jobs yet</p>
+                {categories.length === 0 ? (
+                    <p className="mt-12 text-center text-foreground/70">No categories yet</p>
                 ) : (
-                    <ul className="flex flex-wrap m-2">
-                        {jobs.map((job) => (<li key={job.id} className="bg-foreground border border-accent m-2 rounded-xl p-3 text-lg text-white w-50 h-50 " >
-                            <h2 className="font-bold text-yellow-300 pb-1">{job.title}</h2>
-                            <p>{job.description}</p>
-                            <p className="text-gray-400">KES {job.salary?.toLocaleString()}</p>
-                        </li>))}
+                    <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {categories.map((category) => (
+                            <li key={category.id}>
+                                <Link
+                                    href={`/categories/${category.id}`}
+                                    className="group flex h-20 items-center justify-between gap-3 rounded-2xl border border-border bg-primary/20 p-6 text-xl font-semibold text-primary transition-all duration-300 hover:-translate-y-1 hover:bg-primary hover:text-primary-foreground hover:shadow-lg"
+                                >
+                                    <span className="min-w-0 wrap-break-word line-clamp-2">{category.name}</span>
+                                    <ArrowRight className="shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
-                )
-                }
+                )}
+            </section>
+                
+                <LatestJobs className="bg-background/10" />
+
+                <PlatformPricing />
+
+
+            <section className="">
+                <h2 className="text-center font-heading text-4xl font-extrabold text-primary">User Reviews</h2>
             </section>
 
         </main>

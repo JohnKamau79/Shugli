@@ -1,27 +1,12 @@
+import formatDate from "@/lib/utils/format";
 import { prisma } from "@/src/lib/db/prisma";
+import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function CategoryPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const categoryId = Number(id);
-
-    function formatDate(date: Date) {
-        const today = new Date();
-        const yesterday = new Date();
-
-        today.setHours(0, 0, 0, 0);
-        yesterday.setDate(yesterday.getDate() - 1);
-        yesterday.setHours(0, 0, 0, 0);
-
-        const created = new Date(date);
-        created.setHours(0, 0, 0, 0);
-
-        if (created.getTime() === today.getTime()) return "Today"
-        if (created.getTime() === yesterday.getTime()) return "Yesterday"
-
-        return created.toLocaleString();
-    }
-
 
     if (!Number.isInteger(categoryId)) notFound();
 
@@ -43,7 +28,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
     return (
 
         <main>
-            <div className="h-1/2  bg-primary text-primary-foreground p-4 pt-15 pb-50">
+            <div className="h-[40vh] bg-primary text-primary-foreground p-2 pt-15 pb-50">
                 <h1 className="text-6xl mb-5 font-semibold font-logo">{category.name}</h1>
                 <h1 className="text-lg">{category.description}</h1>
             </div>
@@ -51,64 +36,36 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
             <div className="pt-10 pl-2">
                 {category.jobs.length === 0 ? (<p>No jobs available in this category!</p>) :
                     (
-                        <ul className="">
+                        <ul className="flex flex-wrap">
                             {category.jobs.map((job) => (
-                                <li
-    key={job.id}
-    className="bg-card border border-border rounded-xl p-5 min-w-sm max-w-sm shadow-sm hover:shadow-md transition-shadow"
->
-    {/* Company */}
-    <div className="flex items-center gap-3 mb-5">
-        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-            <span className="text-primary text-xl font-bold">
-                {job.title.charAt(0)}
-            </span>
-        </div>
+                                <li key={job.id} className="bg-primary/30 p-3 mr-3 my-2 pr-5 rounded-lg transition-all duration-300 hover:bg-primary/40 w-full sm:w-[48%] lg:w-[31%] xl:w-[23%] group">
+                                    <Link href={`/jobs/${job.id}`}>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex gap-2 ">
+                                                <span className="border-3 border-primary/40 w-12 h-12 flex items-center justify-center rounded-lg text-xl font-bold font-logo text-primary">{job.company?.charAt(0)}</span>
+                                                <div className="flex flex-col">
+                                                    <p className="text-xl font-bold">{job.company}</p>
+                                                    <p className="font-semibold text-primary/70">{job.city.name}</p>
+                                                </div>
+                                            </div>
+                                            <ArrowRightIcon className="text-primary transition-all duration-300 group-hover:scale-150" />
+                                        </div>
 
-        <div className="flex-1">
-            <p className="font-semibold">{job.companyy}</p>
-            <p className="text-sm text-muted-foreground">
-                {job.city.name}
-            </p>
-        </div>
+                                        <div className="">
+                                            <h3 className="text-2xl font-semibold mt-2">{job.title}</h3>
+                                            <div className="flex items-center gap-10 pt-1">
+                                                <span className="bg-primary/90 px-3 text-primary-foreground text-sm rounded-2xl">{job.jobType}</span>
+                                                <span className="bg-primary/90 px-3 text-primary-foreground text-sm rounded-2xl">{job.duration.replace('_', '-')}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center mt-6 mb-2">
+                                                <p className="text-primary font-bold text-xl">Ksh {job.salary?.toLocaleString()}</p>
+                                                <span className="font-semibold text-foreground/50">{formatDate(job.createdAt)}</span>
+                                            </div>
+                                        </div>
+                                    </Link>
 
-        <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">
-            {job.jobType.replace("_", "-").toLowerCase()}
-        </span>
-    </div>
 
-    {/* Job title */}
-    <h2 className="text-xl font-bold mb-2">
-        {job.title}
-    </h2>
-
-    {/* Description */}
-    <p className="text-sm text-muted-foreground line-clamp-2 mb-5">
-        {job.description}
-    </p>
-
-    <div className="border-t border-border pt-4 flex justify-between items-center">
-        <div>
-            <p className="text-xs text-muted-foreground mb-1">SALARY</p>
-            <p className="font-bold text-primary">
-                {job.salary
-                    ? `Ksh ${job.salary.toLocaleString()}`
-                    : "Negotiable"}
-            </p>
-        </div>
-
-        <div className="text-right">
-            <p className="text-xs text-muted-foreground mb-1">POSTED</p>
-            <p className="font-medium text-sm">
-                {formatDate(job.createdAt)}
-            </p>
-        </div>
-    </div>
-
-    <button className="w-full mt-5 bg-primary text-primary-foreground rounded-lg py-2.5 font-semibold hover:opacity-90 transition">
-        View Details
-    </button>
-</li>
+                                </li>
                             ))}
                         </ul>
                     )}

@@ -16,8 +16,17 @@
 ## 05/11/2026
 - Created part landing page/ part signup/ part categories page 
 
+## 06/11/2026
+- Landing page continuation.
+-Jobs page creation.
+- Categories page creation
+
 #
 _Next up--- complete the application api for employer and api's that need to be viisible for all in ui and also admin for RBAC. Also delete user logic.
+
+_Next up-- Resume categories page and landing page
+
+_Next up-- Finish Landing page + footer
 
 - forgot password
 - reset password
