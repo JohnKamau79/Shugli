@@ -17,7 +17,7 @@ export default async function Header() {
 
 
   return (
-    <header className="border border-border bg-background/90 sticky top-0 z-50">
+    <header className="border-b-3 border-primary/10 bg-background/90 sticky top-0 z-50">
       <div className="mx-auto max-w-6xl flex items-center justify-between p-4 relative">
         <Link href={'/'} className="font-logo text-3xl font-bold text-primary">
           Shugli
@@ -29,7 +29,7 @@ export default async function Header() {
             </NavLink>
           ))}
           {!session ?
-            <Button href="../auth/LoginPage">Log In</Button>
+            <Button href="/auth/LoginPage">Log In</Button>
             :
             <LogoutButton className="btn-primary" />
           }

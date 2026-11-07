@@ -67,7 +67,7 @@ export default function PlatformPricing() {
       <h2 className="text-center font-heading text-4xl font-extrabold text-primary mb-20">
         Platform Pricing
       </h2>
-      <div className="flex flex-wrap justify-evenly">
+      <div className="flex flex-wrap gap-6 w-full p-2">
         {plans.map((plan) => {
           const isStarter = plan.name === "Starter";
           const isPro = plan.name === "Pro";
@@ -75,7 +75,7 @@ export default function PlatformPricing() {
           return (
             <div
               key={plan.name}
-              className={` font-medium border rounded-2xl p-3 shadow-xl min-w-[30%] max-w-[30%] min-h-[30%] max-h-[30%]${
+              className={` font-medium border rounded-2xl p-3 shadow-xl w-full max-w-full min-w-0 grow-0 ${
                 isStarter
                   ? "border-accent shadow-accent bg-accent/10"
                   : isPro

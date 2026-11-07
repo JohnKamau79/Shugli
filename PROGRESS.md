@@ -21,12 +21,20 @@
 -Jobs page creation.
 - Categories page creation
 
+## 07/11/2026
+- Separation for concerns on landing page sections
+- UI adjustment
+
 #
 _Next up--- complete the application api for employer and api's that need to be viisible for all in ui and also admin for RBAC. Also delete user logic.
 
 _Next up-- Resume categories page and landing page
 
 _Next up-- Finish Landing page + footer
+
+_Next up-- Finish Landing page + footer
+
+
 
 - forgot password
 - reset password

@@ -1,38 +1,58 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { useState } from "react";
 import { MenuIcon, X } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
+type Props = {
+  links: { href: string; label: string }[];
+  isLoggedIn: boolean;
+};
 
-export default function MobileMenu({ links, isLoggedIn }: { links: { href: string; label: string }[], isLoggedIn: boolean }) {
-    const [open, setOpen] = useState(false);
+export default function MobileMenu({ links, isLoggedIn }: Props) {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
 
+  return (
+    <div className="md:hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+        aria-label={open ? "Close menu" : "Open menu"}
+        className="rounded-lg border border-border p-2 text-primary"
+      >
+        {open ? <X className="size-5" /> : <MenuIcon className="size-5" />}
+      </button>
 
-    return (
-        <div className="md:hidden">
-            <button
-                onClick={() => setOpen(!open)}
-                aria-expanded={open}
-                className="rounded-lg border border-border px-3 py-2"
+      {open && (
+        <nav className="absolute inset-x-0 top-full z-50 flex flex-col border-b border-border bg-background shadow-md">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={close}
+              className="px-4 py-3 font-semibold text-primary transition-colors duration-300 hover:bg-primary/10"
             >
-                {open ? <X className="text-primary" /> : <MenuIcon className="text-primary" />}
-            </button>
+              {link.label}
+            </Link>
+          ))}
 
-            {open && (
-                <nav className="absolute inset-x-0 flex flex-col border-b border-border bg-foreground/95 p-1 text-background">
-                    {links.map((link) => (
-                        <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className="border-b border-border transition-all duration-300 hover:text-foreground hover:bg-background">
-                            {link.label}
-                        </Link>
-                    ))}
-                    {isLoggedIn ?
-                        <LogoutButton />
-                        :
-                        <Link href={'../auth/LoginPage'} onClick={() => setOpen(false)}>Log In</Link>
-                    }
-                </nav>
-            )}
-        </div>
-    );
+          {isLoggedIn ? (
+            <div onClick={close} className="px-4 py-3">
+              <LogoutButton className=" font-semibold text-primary transition-colors duration-300 hover:bg-primary/10" />
+            </div>
+          ) : (
+            <Link
+              href="/auth/LoginPage"
+              onClick={close}
+              className="px-4 py-3 font-semibold text-primary transition-colors duration-300 hover:bg-primary/10"
+            >
+              Log In
+            </Link>
+          )}
+        </nav>
+      )}
+    </div>
+  );
 }
