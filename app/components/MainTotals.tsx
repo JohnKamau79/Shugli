@@ -1,8 +1,8 @@
 const stats = [
-  { value: "899", label: "Total Employers" },
-  { value: "899", label: "Total Jobs" },
-  { value: "899", label: "Active Jobs" },
-  { value: "899", label: "Total Users" },
+  { value: "314", label: "Total Employers" },
+  { value: "1,959", label: "Total Jobs" },
+  { value: "1,225", label: "Active Jobs" },
+  { value: "8,959", label: "Total Users" },
 ];
 
 export default function MainTotals() {

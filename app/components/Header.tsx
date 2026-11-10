@@ -17,11 +17,14 @@ export default async function Header() {
 
 
   return (
-    <header className="border-b-3 border-primary/10 bg-background/90 sticky top-0 z-50">
-      <div className="mx-auto max-w-6xl flex items-center justify-between p-4 relative">
-        <Link href={'/'} className="font-logo text-3xl font-bold text-primary">
-          Shugli
-        </Link>
+    <header className="sticky top-0 z-50 border-b-3 border-primary/10 bg-background/90 backdrop-blur-md">
+  <div className="relative mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4">
+    <Link
+      href="/"
+      className="font-logo text-2xl font-bold text-primary sm:text-3xl"
+    >
+      Shugli
+    </Link>
         <nav className="hidden text-primary font-medium text-lg md:flex gap-6">
           {links.map((link) => (
             <NavLink key={link.href} href={link.href}>

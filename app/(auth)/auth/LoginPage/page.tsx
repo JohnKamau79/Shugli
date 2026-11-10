@@ -39,11 +39,12 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex items-center justify-center bg-[url('/working3.jpg')] bg-cover bg-center h-screen">
-      <div className="bg-background/70 shadow-primary shadow-xl p-5 m-10 rounded-2xl w-full max-w-sm  ">
+    <main className="bg-[url('/working3.jpg')] bg-cover bg-center min-h-dvh ">
+     <div className="absolute inset-0 backdrop-blur-sm flex items-center justify-center ">
+       <div className="bg-background/70 shadow-primary shadow-xl p-5 m-10 rounded-2xl w-full max-w-sm  relative">
         <div className="flex flex-col-reverse justify-center items-center gap-3 mb-3">
           <h1 className="font-bold text-primary text-xl">Log In</h1>
-          <Image src={"../../icon.svg"} alt={"Icon"} width={60} height={60} />
+          <Image src={"../../icon.svg"} alt={"Icon"} width={60} height={60} priority />
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
@@ -75,6 +76,7 @@ export default function LoginPage() {
           <p className="text-center text-primary font-semibold text-lg">Not registered? <span><NavLink href="../auth/SignupPage">Sign Up</NavLink></span></p>
         </form>
       </div>
+     </div>
     </main>
   );
 }

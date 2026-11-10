@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter, Fraunces } from "next/font/google";
-import Header from "./components/Header";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
@@ -17,7 +16,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body
         className={`${inter.variable} ${fraunces.variable} font-sans min-h-full flex flex-col bg-background  text-foreground `}
       >
-        <Header />
         {children}
       </body>
     </html>

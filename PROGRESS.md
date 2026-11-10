@@ -25,6 +25,12 @@
 - Separation for concerns on landing page sections
 - UI adjustment
 
+## 10/11/2026
+- Created footer
+- Created searchbar + filters
+- Completed homepage UI
+- Enhanced jobs and jobs/id page UI
+
 #
 _Next up--- complete the application api for employer and api's that need to be viisible for all in ui and also admin for RBAC. Also delete user logic.
 
@@ -33,6 +39,8 @@ _Next up-- Resume categories page and landing page
 _Next up-- Finish Landing page + footer
 
 _Next up-- Finish Landing page + footer
+
+_Next up-- Register page, profile
 
 
 
@@ -50,3 +58,14 @@ View company details
 Let employers review applications
 Send messages and notifications
 Let admins manage users, jobs, and companies
+
+
+## DONE
+- Header
+- Footer
+- Searchbar + Filters
+- Home Page
+- Jobs Page
+- Job/id Page
+- Login Page
+

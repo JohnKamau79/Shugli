@@ -36,7 +36,7 @@
 }
 
 .input {
-  @apply border rounded-lg border-primary pl-2 text-lg font-semibold bg-background ;
+  @apply border rounded-lg border-primary pl-2 text-lg font-semibold bg-background outline-none;
 }
 
 .formBtn {
@@ -51,5 +51,18 @@
   to {
     opacity: 1;
     transform: translateY(0)
+  }
+}
+
+@theme {
+  --animate-marquee: marquee 30s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 }

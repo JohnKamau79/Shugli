@@ -1,39 +1,46 @@
-import formatDate from "@/lib/utils/format";
 import { prisma } from "@/src/lib/db/prisma";
-import { ArrowRightIcon } from "lucide-react";
-import Link from "next/link";
 
-type Props = {
-  className?: string;
-};
-
-export default async function MainCompanies({ className }: Props) {
-  const jobs = await prisma.jobs.findMany({
-    select: {
-      id: true,
-      company: true,
-    },
+export default async function MainCompanies() {
+  const rows = await prisma.jobs.findMany({
+    distinct: ["company"],
+    select: { company: true },
+    where: { company: { not: null } },
+    orderBy: { createdAt: "desc" },
+    take: 12,
   });
 
+  const companies = rows.map((r) => r.company as string);
+
+  if (companies.length === 0) return null;
+
   return (
-    <section className={className}>
-      <div className="mt-6 px-4 sm:mt-10 md:mt-20">
-        {jobs.length === 0 ? (
-          <p className="text-center text-foreground/70">
-            No jobs available at the moment
-          </p>
-        ) : (
-          <ul className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:py-0 lg:grid-cols-3">
-            {jobs.map((job) => (
-              <li
-                key={job.id}
-                className="group w-[82%] shrink-0 snap-start rounded-xl border border-primary/30 bg-primary/5 px-3.5 py-3 shadow-md shadow-primary/25 transition-all duration-300 hover:bg-primary/50 sm:w-auto sm:shadow-xl"
-              >
-                {job.company}
-              </li>
-            ))}
-          </ul>
-        )}
+    <section className="py-10 sm:py-16 bg-primary/5">
+      <h2 className="px-4 text-center font-heading font-extrabold text-primary/40 sm:text-lg">
+        Hiring Companies
+      </h2>
+
+      <div className="mt-6 overflow-hidden mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] sm:mt-10">
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none">
+          {[0, 1].map((copy) => (
+            <ul
+              key={copy}
+              aria-hidden={copy === 1}
+              className="flex shrink-0 gap-3 pr-3 sm:gap-4 sm:pr-4"
+            >
+              {companies.map((name) => (
+                <li
+                  key={`${copy}-${name}`}
+                  className="flex items-center gap-10 text-primary/70 px-3 py-2 sm:px-4 sm:py-3"
+                >
+                  <span className="whitespace-nowrap text-sm font-extrabold sm:text-base">
+                    {name}
+                  </span>
+                  <span className="bg-accent/40 p-1"></span>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
       </div>
     </section>
   );

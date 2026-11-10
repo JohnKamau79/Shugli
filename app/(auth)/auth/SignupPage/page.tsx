@@ -50,7 +50,7 @@ export default function LoginPage() {
             <div className="bg-background/70 shadow-primary shadow-xl p-5 m-10 rounded-2xl w-full max-w-sm  ">
                 <div className="flex flex-col-reverse justify-center items-center gap-3 mb-6">
                     <h1 className="font-extrabold text-primary text-xl">FIND YOUR DREAM JOB TODAY!</h1>
-                    <Image src={"../../icon.svg"} alt={"Icon"} width={60} height={60} />
+                    <Image src={"../../icon.svg"} alt={"Icon"} width={60} height={60} priority />
                 </div>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                     <input

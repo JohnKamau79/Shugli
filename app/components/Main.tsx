@@ -1,9 +1,15 @@
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
+import JobSearch from "./JobSearch";
+import { Suspense } from "react";
+import { prisma } from "@/src/lib/db/prisma";
 
 const badges = ["Verified jobs", "Updated daily", "Built for Kenya"];
 
-export default function Main() {
+export default async function Main() {
+
+  const categories = await prisma.category.findMany();
+
   return (
     <section className="bg-[url('/background.jpg')] bg-cover bg-center">
       <div className="mx-auto flex w-full flex-col items-center justify-center bg-background/60 px-4 py-12 text-center backdrop-blur-md sm:px-6 md:min-h-dvh md:py-16">
@@ -15,6 +21,7 @@ export default function Main() {
           Welcome to Shugli. Where we connect you to your future job and give
           you a platform to showcase a job for hire.
         </p>
+        
 
         <ul className="mb-2 mt-6 flex flex-wrap items-center justify-center gap-3 font-logo text-sm font-semibold sm:gap-4 sm:text-base">
           {badges.map((badge) => (
@@ -26,19 +33,24 @@ export default function Main() {
             </li>
           ))}
         </ul>
+        <div className="mt-6 w-full mb-10">
+          <Suspense>
+            <JobSearch categories={categories} />
+          </Suspense>
+        </div>
 
         <div className="mt-7 flex w-full max-w-md flex-col gap-4 text-lg font-semibold sm:max-w-none sm:flex-row sm:justify-center sm:gap-6 sm:text-xl lg:gap-10 lg:text-2xl">
           <Link
             href="/jobs"
             className="rounded-2xl border-2 border-accent bg-accent-foreground px-6 py-3 text-accent shadow-3xl transition-all duration-300 hover:bg-accent hover:text-accent-foreground sm:px-10"
           >
-            Find your job
+            Find Your Job
           </Link>
           <Link
             href="/auth/LoginPage"
             className="rounded-2xl bg-accent px-6 py-3 text-accent-foreground shadow-3xl transition-all duration-300 hover:bg-accent-foreground hover:text-accent sm:px-10"
           >
-            Get started
+            Create Account
           </Link>
         </div>
       </div>
