@@ -190,7 +190,7 @@ export default function SignUpPage() {
             <button className="formBtn" type="submit" disabled={loading}>
               {loading ? "Creating account..." : "Sign Up"}
             </button>
-            <p className="text-center text-primary font-semibold text-lg">Not registered? <span><NavLink href="../auth/SignupPage">Sign Up</NavLink></span></p>
+            <p className="text-center text-primary font-semibold text-lg">Already registered? <span><NavLink href="../auth/LoginPage">Sign In</NavLink></span></p>
           </form>
         </div>
       </div>

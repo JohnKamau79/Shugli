@@ -34,6 +34,10 @@
 ## 10/11/2026
 - Created register page
 
+## 11/11/2026
+- Created profile page
+
+
 #
 _Next up--- complete the application api for employer and api's that need to be viisible for all in ui and also admin for RBAC. Also delete user logic.
 
@@ -44,6 +48,10 @@ _Next up-- Finish Landing page + footer
 _Next up-- Finish Landing page + footer
 
 _Next up-- Register page, profile
+
+_Next up-- Profile page
+
+_Next up -- Finish profile page
 
 
 

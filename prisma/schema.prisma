@@ -37,7 +37,7 @@ enum Duration {
   Contract
   Part_Time
   Internship
-  Cashual
+  Casual
 }
 
 enum Status {
@@ -46,25 +46,37 @@ enum Status {
   Rejected
 }
 
+enum EducationLevel {
+  Certificate
+  Diploma
+  Bachelors_BSc_BA
+  Masters_MSc_MA
+  Doctorate_PHD
+}
+
 model Users {
-  id            Int            @id @default(autoincrement())
-  firstName     String
-  lastName      String
-  email         String         @unique
-  phone         String         @unique
-  passwordHash  String
-  gender        Gender
-  role          Role
-  skills        Skills[]
-  cityId        Int
-  city          City           @relation(fields: [cityId], references: [id])
-  isPremium     Boolean        @default(false)
-  premiumExpiry DateTime?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  jobs          Jobs[]
-  workerProfile WorkerProfile?
-  applications  Application[]
+  id               Int               @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  email            String            @unique
+  phone            String            @unique
+  passwordHash     String
+  gender           Gender
+  role             Role
+  skills           Skills[]
+  cityId           Int
+  city             City              @relation(fields: [cityId], references: [id])
+  isPremium        Boolean           @default(false)
+  premiumExpiry    DateTime?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  jobs             Jobs[]
+  workerProfile    WorkerProfile?
+  applications     Application[]
+  workExperiences  WorkExperience[]
+  workerEducations WorkerEducation[]
+  languages        Languages[]
+  // professionalSummaries ProfessionalSummary[]
 }
 
 model Category {
@@ -76,10 +88,11 @@ model Category {
 }
 
 model City {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  jobs  Jobs[]
-  users Users[]
+  id              Int              @id @default(autoincrement())
+  name            String           @unique
+  jobs            Jobs[]
+  users           Users[]
+  workExperiences WorkExperience[]
 }
 
 model Jobs {
@@ -95,7 +108,7 @@ model Jobs {
   category     Category      @relation(fields: [categoryId], references: [id])
   salary       Int?
   userId       Int
-  employer     Users         @relation(fields: [userId], references: [id])
+  employer     Users         @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   expiresAt    DateTime?
@@ -111,7 +124,7 @@ model Skills {
 model WorkerProfile {
   id         Int      @id @default(autoincrement())
   userId     Int      @unique
-  user       Users    @relation(fields: [userId], references: [id])
+  user       Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   headline   String
   bio        String
   yoe        Int
@@ -121,10 +134,48 @@ model WorkerProfile {
   updatedAt  DateTime @updatedAt
 }
 
+model WorkExperience {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  user         Users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobTitle     String
+  company      String
+  doEntry      DateTime
+  doExit       DateTime?
+  cityId       Int
+  city         City      @relation(fields: [cityId], references: [id])
+  skills       String[]
+  achievements String[]
+}
+
+model WorkerEducation {
+  id        Int            @id @default(autoincrement())
+  userId    Int
+  user      Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  institute String
+  level     EducationLevel
+  course    String
+  doEntry   DateTime
+  doExit    DateTime?
+}
+
+// model ProfessionalSummary {
+//   id      Int    @id @default(autoincrement())
+//   summary String
+//   userId  Int
+//   user    Users  @relation(fields: [userId], references: [id])
+// }
+
+model Languages {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  users Users[]
+}
+
 model Application {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      Users    @relation(fields: [userId], references: [id])
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   jobId     Int
   job       Jobs     @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())

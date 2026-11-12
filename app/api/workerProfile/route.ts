@@ -8,9 +8,16 @@ export async function POST(request: Request) {
     }
     const { headline, bio, yoe, categoryId } = await request.json();
 
+    const cId = Number(categoryId);
+    const years = Number(yoe);
+
     const profileExist = await prisma.workerProfile.findUnique({ where: { userId: session.userId } });
     if (profileExist) {
         return Response.json({ error: "You already have a profile" });
+    }
+
+    if (!headline || !bio || !yoe || !categoryId) {
+        return Response.json({ error: "Missing fields" }, { status: 400 })
     }
 
     const workerProfile = await prisma.workerProfile.create({
@@ -18,8 +25,8 @@ export async function POST(request: Request) {
             userId: session.userId,
             headline,
             bio,
-            yoe,
-            categoryId,
+            yoe: years,
+            categoryId: cId,
         }
     });
 
@@ -37,9 +44,50 @@ export async function GET() {
 
     const workerProfile = await prisma.workerProfile.findUnique({ where: { userId: userId }, include: { category: { select: { name: true } }, user: { select: { firstName: true } } } });
 
-    if(!workerProfile) {
-        return Response.json({error: "Profile is null"}, {status: 404});
+    if (!workerProfile) {
+        return Response.json({ error: "Profile is null" }, { status: 404 });
     }
 
     return Response.json(workerProfile, { status: 200 });
+}
+
+export async function PATCH(request: Request) {
+    const session = await getSession();
+    if (!session) {
+        return Response.json({ error: "Not logged in" }, { status: 409 });
+    }
+
+    const { headline, bio, yoe, categoryId } = await request.json();
+
+    const workerProfile = await prisma.workerProfile.update({
+        where: {
+            userId: session.userId
+        },
+        data: {
+            ...(headline !== undefined && { headline }),
+            ...(bio !== undefined && { bio }),
+            ...(yoe !== undefined && { yoe: Number(yoe) }),
+            ...(categoryId !== undefined && { categoryId: Number(categoryId) }),
+        }
+    });
+
+    return Response.json(workerProfile, { status: 200 });
+
+}
+
+
+export async function DELETE() {
+    const session = await getSession();
+    if (!session) {
+        return Response.json({ error: "You're not logged in" }, { status: 401 });
+    }
+
+    const workerProfile = await prisma.workerProfile.findUnique({ where: { userId: session.userId } });
+    if (!workerProfile) {
+        return Response.json({ error: "Profile not found" }, { status: 404 });
+    }
+
+    await prisma.workerProfile.delete({ where: { id: workerProfile.id } });
+
+    return Response.json("Worker Profile deleted successfully", { status: 200 });
 }

@@ -24,7 +24,7 @@ export default function LoginPage() {
       });
 
       if (res.ok) {
-        router.push("/");
+        router.push("/ProfilePage");
         router.refresh();
       } else {
         const data = await res.json();
