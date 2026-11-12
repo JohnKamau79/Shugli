@@ -37,6 +37,8 @@
 ## 11/11/2026
 - Created profile page
 
+## 12/11/2026
+- Handled work experience for profile section
 
 #
 _Next up--- complete the application api for employer and api's that need to be viisible for all in ui and also admin for RBAC. Also delete user logic.
@@ -52,6 +54,8 @@ _Next up-- Register page, profile
 _Next up-- Profile page
 
 _Next up -- Finish profile page
+
+_Next up Profile Page experience UI, -> education
 
 
 

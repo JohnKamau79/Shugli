@@ -14,7 +14,7 @@ export default async function ProfilePage() {
     <main>
       <div>
         <PersonalInfo />
-        <ProfessionalSummary profile={null} />
+        <ProfessionalSummary />
         <WorkExperience />
         <Education />
         <Skills />

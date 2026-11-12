@@ -354,3 +354,35 @@ npm i react-phone-number-impact
 "doEntry": "2020-09-01",
 "doExit": "2022-11-25"
 }
+
+# Worker Profile
+
+[
+  {
+    "id": 1,
+    "headline": "Experienced Carpenter & Furniture Maker",
+    "bio": "I am a skilled and detail-oriented carpenter with 5 years of professional experience in furniture making, cabinetry, wood installation, and general carpentry. I specialize in designing, building, and repairing wooden furniture, including wardrobes, kitchen cabinets, doors, beds, and office furniture. I have strong knowledge of different wood types, measurements, cutting techniques, and finishing methods. I take pride in delivering quality workmanship, meeting deadlines, and ensuring customer satisfaction. I am comfortable working independently or as part of a team and can interpret technical drawings to produce accurate results.",
+    "yoe": 5,
+    "categoryId": 3,
+    "createdAt": "2026-10-01T10:00:00.000Z",
+    "updatedAt": "2026-11-01T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "headline": "Professional Electrician",
+    "bio": "I am a dedicated electrician with 8 years of hands-on experience in residential and commercial electrical installations, maintenance, and repairs. My expertise includes electrical wiring, circuit breaker installation, fault diagnosis, lighting systems, socket installation, and electrical safety inspections. I am experienced in reading electrical diagrams, identifying electrical faults, and implementing safe and reliable solutions. I consistently follow electrical safety standards and ensure that all work meets the required specifications. I am reliable, organized, and committed to completing projects efficiently while maintaining high standards of workmanship.",
+    "yoe": 8,
+    "categoryId": 5,
+    "createdAt": "2026-10-05T10:00:00.000Z",
+    "updatedAt": "2026-11-03T10:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "headline": "Frontend Web Developer",
+    "bio": "I am a motivated frontend web developer with 2 years of practical experience building responsive, user-friendly, and accessible web applications. I specialize in JavaScript, TypeScript, React, Next.js, and Tailwind CSS. I have experience developing reusable UI components, integrating REST APIs, managing application state, handling form validation, and working with databases through Prisma. I understand modern web development practices, responsive design principles, and component-based architecture. I enjoy solving technical problems, writing maintainable code, and continuously improving my development skills. I am comfortable collaborating with designers and backend developers to deliver functional and visually consistent applications.",
+    "yoe": 2,
+    "categoryId": 1,
+    "createdAt": "2026-10-10T10:00:00.000Z",
+    "updatedAt": "2026-11-05T10:00:00.000Z"
+  }
+]

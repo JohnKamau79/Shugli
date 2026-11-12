@@ -1,31 +1,45 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-type Profile = {
-  headline: string;
-  bio: string;
-  yoe: number;
-  categoryId: number;
-  category: { name: string };
-} | null;
-
-export default function ProfessionalSummary({ profile }: { profile: Profile }) {
-  const router = useRouter();
+export default function ProfessionalSummary() {
   const [editing, setEditing] = useState(false);
   const [categories, setCategories] = useState<{ id: number; name: string }[]>(
     [],
   );
 
-  const [profile, setProfile] = useState()
+  const [workerProfile, setWorkerProfile] = useState<{
+    id: number;
+    headline: string;
+    bio: string;
+    yoe: number;
+    categoryId: number;
+    category: { name: string };
+  } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/workerProfile")
+      .then((r) => r.json())
+      .then(setWorkerProfile)
+      .catch(() => {});
+  }, []);
 
   const [form, setForm] = useState({
-    headline: profile?.headline ?? "",
-    bio: profile?.bio ?? "",
-    yoe: String(profile?.yoe ?? ""),
-    categoryId: String(profile?.categoryId ?? ""),
+    headline: "",
+    bio: "",
+    yoe: "",
+    categoryId: "",
   });
+
+  function handleClick() {
+    setEditing(true);
+    setForm({
+      headline: workerProfile?.headline ?? "",
+      bio: workerProfile?.bio ?? "",
+      yoe: String(workerProfile?.yoe ?? ""),
+      categoryId: String(workerProfile?.categoryId ?? ""),
+    });
+  }
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,7 +67,7 @@ export default function ProfessionalSummary({ profile }: { profile: Profile }) {
 
     try {
       const res = await fetch("/api/workerProfile", {
-        method: profile ? "PATCH" : "POST",
+        method: workerProfile ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           headline: form.headline,
@@ -70,7 +84,8 @@ export default function ProfessionalSummary({ profile }: { profile: Profile }) {
         return;
       }
       setEditing(false);
-      router.refresh();
+      setWorkerProfile(data);
+      // router.refresh();
     } catch {
       setError("Could not reach server! Check your connection");
     } finally {
@@ -86,10 +101,10 @@ export default function ProfessionalSummary({ profile }: { profile: Profile }) {
         </h2>
         {!editing && (
           <button
-            onClick={() => setEditing(true)}
+            onClick={handleClick}
             className="rounded-lg border border-primary px-3 text-sm text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
           >
-            Add/Edit
+            {workerProfile ? "Edit" : "Add"}
           </button>
         )}
       </div>
@@ -107,10 +122,11 @@ export default function ProfessionalSummary({ profile }: { profile: Profile }) {
           <textarea
             className="input min-h-28"
             name="bio"
-            placeholder="Tell employers about yourself"
+            placeholder="Tell employers about yourself (max-400 chars)"
             onChange={update}
             value={form.bio}
             required
+            maxLength={400}
           />
           <div className="grid gap-3 sm:grid-cols-2">
             <input
@@ -147,19 +163,37 @@ export default function ProfessionalSummary({ profile }: { profile: Profile }) {
             <button className="formBtn" type="submit" disabled={loading}>
               {loading ? "Saving..." : "Save"}
             </button>
-            <button type="button" onClick={() => {setEditing(false); setError("")}} className="rounded-lg border border-primary text-primary px-4 py-2">Cancel</button>
+            <button
+              type="button"
+              onClick={() => {
+                setEditing(false);
+                setError("");
+              }}
+              className="rounded-lg border border-primary text-primary px-4 py-2"
+            >
+              Cancel
+            </button>
           </div>
         </form>
-      ) : !profile ? (
-            <p className="mt-3 space-y-3">You haven&apos;t added a professional summary yet!</p>
+      ) : !workerProfile ? (
+        <p className="mt-3 space-y-3">
+          You haven&apos;t added a professional summary yet!
+        </p>
       ) : (
         <div className="mt-3 space-y-3">
-            <p className="text-lg font-semibold">profile.headline</p>
-            <div className="flex flex-wrap gap-2">
-                <span className=" rounded-2xl bg-primary text-primary-foreground px-3 text-sm">profile.category.name</span>
-                <span className="rounded-2xl border border-primary/40 bg-background px-3 text-sm text-primary">profile.yoe experience</span>
-            </div>
-            <p className="whitespace-pre-line text-foreground/80">profile.bio</p>
+          <p className="text-lg font-semibold">{workerProfile.headline}</p>
+          <div className="flex flex-wrap gap-2">
+            <span className=" rounded-2xl bg-primary text-primary-foreground px-3 text-sm">
+              {workerProfile.category.name}
+            </span>
+            <span className="rounded-2xl border border-primary/40 bg-background px-3 text-sm text-primary">
+              {workerProfile.yoe} {workerProfile.yoe === 1 ? "year" : "years"}{" "}
+              experience
+            </span>
+          </div>
+          <p className="whitespace-pre-line text-foreground/80">
+            {workerProfile.bio}
+          </p>
         </div>
       )}
     </section>
