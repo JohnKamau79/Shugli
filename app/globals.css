@@ -40,7 +40,15 @@
 }
 
 .formBtn {
-  @apply bg-primary text-primary-foreground font-bold p-1 rounded-xl;
+  @apply bg-primary text-primary-foreground font-bold  px-3 md:px-5 rounded-xl;
+}
+
+.outlineBtn {
+  @apply rounded-lg border border-primary px-3 py-1 text-sm text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground shrink-0;
+}
+
+.gridWrap {
+  @apply grid transition-[grid-template-rows] duration-300 
 }
 
 @keyframes fadeIn {

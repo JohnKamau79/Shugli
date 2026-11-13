@@ -386,3 +386,28 @@ npm i react-phone-number-impact
     "updatedAt": "2026-11-05T10:00:00.000Z"
   }
 ]
+
+# Education
+[
+  {
+    "institute": "University of Nairobi",
+    "level": "Degree",
+    "course": "Bachelor of Science in Computer Science",
+    "doEntry": "2019-09-01",
+    "doExit": "2023-12-15"
+  },
+  {
+    "institute": "Kenya Institute of Professional Studies",
+    "level": "Diploma",
+    "course": "Diploma in Information Technology",
+    "doEntry": "2017-01-10",
+    "doExit": "2018-12-20"
+  },
+  {
+    "institute": "Nairobi Technical Training Institute",
+    "level": "Certificate",
+    "course": "Certificate in Computer Applications",
+    "doEntry": "2016-01-15",
+    "doExit": "2016-11-30"
+  },
+]

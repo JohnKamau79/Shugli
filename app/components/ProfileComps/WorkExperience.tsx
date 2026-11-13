@@ -2,12 +2,14 @@
 
 import formatDate from "@/lib/utils/format";
 import { clean } from "@/lib/utils/trim";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function WorkExperience() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<number | "new" | null>(null);
+  const [open, setOpen] = useState(false);
 
   const [workExperience, setWorkExperience] = useState<
     {
@@ -94,6 +96,7 @@ export default function WorkExperience() {
   }
 
   function handleAddExperience() {
+    setOpen(true);
     setEditingId("new");
     setForm({
       jobTitle: "",
@@ -160,190 +163,281 @@ export default function WorkExperience() {
   }
 
   return (
-    <section className=" rounded-2xl border border-border bg-surface p-6 mt-6 md:mt-10">
-      <h2 className="font-logo text-xl font-bold text-primary">
-        Work Experience
-      </h2>
-
-      {editingId !== null ? (
-        <form onSubmit={(e) => handleSubmit(e, editingId)}>
-          <input
-            className="input"
-            type="text"
-            name="jobTitle"
-            placeholder="Job title"
-            value={form.jobTitle}
-            onChange={update}
-            required
-          />
-          <input
-            className="input"
-            type="text"
-            name="company"
-            placeholder="Company name"
-            value={form.company}
-            onChange={update}
-            required
-          />
-          <input
-            className="input"
-            type="date"
-            name="doEntry"
-            placeholder="Date of entry"
-            value={form.doEntry}
-            onChange={update}
-            required
-          />
-          <input
-            className="input"
-            type="date"
-            name="doExit"
-            placeholder="Date of exit"
-            value={form.doExit}
-            onChange={update}
-          />
-          <select name="cityId" value={form.cityId} onChange={update} required>
-            <option value="" disabled>
-              City
-            </option>
-            {cities.map((city) => (
-              <option key={city.id} value={city.id}>
-                {city.name}
-              </option>
-            ))}
-          </select>
-
-          <div>
-            <input
-              className="input"
-              type="text"
-              placeholder="Add a skill"
-              value={skillInput}
-              onChange={(e) => setSkillInput(e.target.value)}
+    <section className="mt-6 rounded-2xl border border-border bg-surface p-4 sm:p-6 md:mt-10">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className=" flex-1 font-logo text-xl font-bold text-primary">
+          <button
+            type="button"
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
+            className="flex items-center justify-between gap-3 text-left"
+          >
+            Work Experience
+            <ChevronDown
+              className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
             />
-            <button type="button" onClick={addSkill}>
-              Add
-            </button>
+          </button>
+        </h2>
+        {editingId === null && (
+          <button
+            type="button"
+            onClick={handleAddExperience}
+            className="outlineBtn"
+          >
+            + Add
+          </button>
+        )}
+      </div>
 
-            <ul>
-              {form.skills.map((skill, index) => (
-                <li key={index}>
-                  {skill}
-                  <button type="button" onClick={() => removeSkill(index)}>
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div
+        className={`gridWrap ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+      >
+        <div className="overflow-hidden" inert={!open}>
+          {editingId !== null ? (
+            <form
+              onSubmit={(e) => handleSubmit(e, editingId)}
+              className="mt-4 flex flex-col gap-4"
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input
+                  className="input"
+                  type="text"
+                  name="jobTitle"
+                  placeholder="Job title"
+                  value={form.jobTitle}
+                  onChange={update}
+                  required
+                />
+                <input
+                  className="input"
+                  type="text"
+                  name="company"
+                  placeholder="Company name"
+                  value={form.company}
+                  onChange={update}
+                  required
+                />
+              </div>
 
-          <div>
-            <input
-              className="input"
-              type="text"
-              placeholder="Add an achievement"
-              value={achievementInput}
-              onChange={(e) => setAchievementInput(e.target.value)}
-            />
-            <button type="button" onClick={addAchievement}>
-              Add
-            </button>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className="flex flex-col gap-1 text-sm text-foreground/70">
+                  Start date
+                  <input
+                    className="input"
+                    type="date"
+                    name="doEntry"
+                    value={form.doEntry}
+                    onChange={update}
+                    required
+                  />
+                </label>
+                <label className="flex flex-col gap-1 text-sm text-foreground/70">
+                  End date (leave empty if current)
+                  <input
+                    className="input"
+                    type="date"
+                    name="doExit"
+                    value={form.doExit}
+                    onChange={update}
+                  />
+                </label>
+              </div>
 
-            <ul>
-              {form.achievements.map((achievement, index) => (
-                <li key={index}>
-                  {achievement}
+              <select
+                className="input"
+                name="cityId"
+                value={form.cityId}
+                onChange={update}
+                required
+              >
+                <option value="" disabled>
+                  City
+                </option>
+                {cities.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+
+              <div className="space-y-2">
+                <p className="text-sm font-semibold text-foreground/80">
+                  Skills
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    className="input min-w-0 flex-1"
+                    type="text"
+                    placeholder="Add a skill"
+                    value={skillInput}
+                    onChange={(e) => setSkillInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addSkill();
+                      }
+                    }}
+                  />
                   <button
                     type="button"
-                    onClick={() => removeAchievement(index)}
+                    onClick={addSkill}
+                    className="outlineBtn"
                   >
-                    Remove
+                    Add
                   </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+                </div>
 
-          {error && <p className="text-accent">{error}</p>}
-
-          <div>
-            <button disabled={loading} type="submit" className="formBtn">
-              {loading ? "Saving..." : "Save"}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEditingId(null);
-                setError("");
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      ) : loading ? (
-        <p className="mt-3 text-foreground/70">Loading...</p>
-      ) : error || workExperience.length === 0 ? (
-        <p className="mt-3 text-accent">
-          {error || "You have not added any work experience"}
-        </p>
-      ) : (
-        <ul className="mt-4 space-y-6">
-          {workExperience.map((experience) => (
-            <li
-              key={experience.id}
-              className="border-l-2 border-primary/40 pl-4 mb-8"
-            >
-              <h3 className="text-lg font-semibold">{experience.jobTitle}</h3>
-              <div className="justify-between items-center flex-wrap flex">
-                <p className="text-foreground/70">
-                  {experience.company} - {experience.city.name}
-                </p>
-                <p className="text-sm text-foreground/60">
-                  {formatDate(new Date(experience.doEntry))} -{" "}
-                  {experience.doExit
-                    ? formatDate(new Date(experience.doExit))
-                    : "Present"}
-                </p>
-                {editingId === null && (
-                  <button
-                    onClick={() => handleClick(experience)}
-                    className="rounded-lg border border-primary px-3 text-sm text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
-                  >
-                    Edit
-                  </button>
+                {form.skills.length > 0 && (
+                  <ul className="flex flex-wrap gap-2">
+                    {form.skills.map((skill, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center gap-1 rounded-2xl border border-primary/40 bg-background py-0.5 pl-3 pr-1 text-sm text-primary"
+                      >
+                        {skill}
+                        <button
+                          type="button"
+                          aria-label={`Remove ${skill}`}
+                          onClick={() => removeSkill(index)}
+                          className="rounded-full px-2 transition-colors hover:bg-primary hover:text-primary-foreground"
+                        >
+                          ×
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
 
-              {experience.skills.length > 0 && (
-                <div className="mt-3 flex flex-wrap items-center gap-1 text-foreground/90">
-                  Skills:
-                  {experience.skills.map((skill, id) => (
-                    <span key={id} className="text-foreground/80">
-                      {skill},
-                    </span>
-                  ))}
+              <div className="space-y-2">
+                <p className="text-sm font-semibold text-foreground/80">
+                  Achievements
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    className="input min-w-0 flex-1"
+                    type="text"
+                    placeholder="Add an achievement"
+                    value={achievementInput}
+                    onChange={(e) => setAchievementInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addAchievement();
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addAchievement}
+                    className="outlineBtn"
+                  >
+                    Add
+                  </button>
                 </div>
-              )}
 
-              {experience.achievements.length > 0 && (
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-foreground/80">
-                  {experience.achievements.map((achievement, id) => (
-                    <li key={id}>{achievement}</li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-          <button
-            className="formBtn"
-            type="button"
-            onClick={handleAddExperience}
-          >
-            Add
-          </button>
-        </ul>
-      )}
+                {form.achievements.length > 0 && (
+                  <ul className="space-y-2">
+                    {form.achievements.map((achievement, index) => (
+                      <li
+                        key={index}
+                        className="flex items-start justify-between gap-3 rounded-lg bg-background px-3 py-2 text-sm"
+                      >
+                        <span className="min-w-0 wrap-break-word">
+                          {achievement}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeAchievement(index)}
+                          className="shrink-0 text-primary underline"
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {error && <p className="text-accent">{error}</p>}
+
+              <div className="flex gap-3">
+                <button disabled={loading} type="submit" className="formBtn">
+                  {loading ? "Saving..." : "Save"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingId(null);
+                    setError("");
+                  }}
+                  className="rounded-lg border border-primary/40 px-4 py-2 text-primary transition-colors hover:bg-background"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : loading ? (
+            <p className="mt-3 text-foreground/70">Loading...</p>
+          ) : error ? (
+            <p className="mt-3 text-accent">{error}</p>
+          ) : workExperience.length === 0 ? (
+            <p className="mt-3 text-foreground/70">
+              You have not added any work experience
+            </p>
+          ) : (
+            <ul className="mt-4 space-y-8">
+              {workExperience.map((experience) => (
+                <li
+                  key={experience.id}
+                  className="border-l-2 border-primary/40 pl-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="min-w-0 wrap-break-word text-lg font-semibold">
+                      {experience.jobTitle}
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => handleClick(experience)}
+                      className="outlineBtn"
+                    >
+                      Edit
+                    </button>
+                  </div>
+
+                  <p className="wrap-break-word text-foreground/70 font-semibold">
+                    {experience.company} · {experience.city.name}
+                  </p>
+                  <p className="text-sm text-foreground/60">
+                    {formatDate(new Date(experience.doEntry))} –{" "}
+                    {experience.doExit
+                      ? formatDate(new Date(experience.doExit))
+                      : "Present"}
+                  </p>
+                  {experience.skills.length > 0 && (
+                    <p className="mt-3 text-foreground/80">
+                      <span className="font-semibold text-foreground/80">
+                        Skills:
+                      </span>{" "}
+                      {experience.skills.join(", ")}
+                    </p>
+                  )}
+
+                  {experience.achievements.length > 0 && (
+                    <ul className="mt-3 list-disc space-y-1 pl-5 text-foreground/80">
+                      {experience.achievements.map((achievement, id) => (
+                        <li key={id} className="wrap-break-word">
+                          {achievement}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

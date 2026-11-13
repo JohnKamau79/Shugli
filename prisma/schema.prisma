@@ -177,7 +177,7 @@ model Application {
   userId    Int
   user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   jobId     Int
-  job       Jobs     @relation(fields: [jobId], references: [id])
+  job       Jobs     @relation(fields: [jobId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   status    Status   @default(Pending)
 
