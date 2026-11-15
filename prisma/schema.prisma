@@ -77,6 +77,7 @@ model Users {
   workerEducations WorkerEducation[]
   languages        Languages[]
   // professionalSummaries ProfessionalSummary[]
+  certifications   Certification[]
 }
 
 model Category {
@@ -182,4 +183,12 @@ model Application {
   status    Status   @default(Pending)
 
   @@unique([userId, jobId])
+}
+
+model Certification {
+  id     Int    @id @default(autoincrement())
+  name   String
+  issueDate DateTime @db.Date
+  userId Int
+  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

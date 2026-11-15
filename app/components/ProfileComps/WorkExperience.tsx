@@ -28,7 +28,7 @@ export default function WorkExperience() {
   useEffect(() => {
     fetch("/api/workExperience")
       .then((r) => r.json())
-      .then(setWorkExperience)
+      .then((d) => Array.isArray(d) && setWorkExperience(d))
       .catch(() => {});
   }, []);
 
@@ -37,7 +37,7 @@ export default function WorkExperience() {
   useEffect(() => {
     fetch("/api/cities")
       .then((r) => r.json())
-      .then(setCities)
+      .then((d) => Array.isArray(d) && setCities(d))
       .catch(() => {});
   }, []);
 
@@ -170,7 +170,7 @@ export default function WorkExperience() {
             type="button"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
-            className="flex items-center justify-between gap-3 text-left"
+            className="flex items-center justify-between w-full gap-3 text-left"
           >
             Work Experience
             <ChevronDown

@@ -37,7 +37,7 @@ export default function Education() {
   useEffect(() => {
     fetch("/api/workerEducation")
       .then((r) => r.json())
-      .then(setEducation)
+      .then((d) => Array.isArray(d) && setEducation(d))
       .catch(() => {});
   }, []);
 
@@ -53,6 +53,13 @@ export default function Education() {
     setError("");
     setEditingId("new");
     setOpen(true);
+    setForm({
+      institute: "",
+      level: "",
+      course: "",
+      doEntry: "",
+      doExit: "",
+    });
   }
 
   const levels = EducationLevel;
@@ -126,7 +133,7 @@ export default function Education() {
           <button
             onClick={() => setOpen(!open)}
             aria-expanded={open}
-            className="flex justify-between items-center gap-3 text-left"
+            className="flex justify-between items-center w-full gap-3 text-left"
           >
             Education
             <ChevronDown
@@ -225,7 +232,7 @@ export default function Education() {
                     setEditingId(null);
                     setError("");
                   }}
-                  className="rounded-lg border border-primary/40 text-primary px-4 py-2 transition-colors hover:bg-background"
+                  className="cancelBtn"
                 >
                   Cancel
                 </button>

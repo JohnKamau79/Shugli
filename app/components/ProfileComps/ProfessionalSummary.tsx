@@ -21,8 +21,8 @@ export default function ProfessionalSummary() {
 
   useEffect(() => {
     fetch("/api/workerProfile")
-      .then((r) => r.json())
-      .then(setWorkerProfile)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => d && setWorkerProfile(d))
       .catch(() => {});
   }, []);
 
@@ -34,7 +34,7 @@ export default function ProfessionalSummary() {
   });
 
   function handleClick() {
-    setOpen(true)
+    setOpen(true);
     setEditing(true);
     setForm({
       headline: workerProfile?.headline ?? "",
@@ -51,7 +51,7 @@ export default function ProfessionalSummary() {
     if (!editing) return;
     fetch("/api/category")
       .then((r) => r.json())
-      .then(setCategories)
+      .then((d) => Array.isArray(d) && setCategories(d))
       .catch(() => {});
   }, [editing]);
 
@@ -103,7 +103,7 @@ export default function ProfessionalSummary() {
           <button
             onClick={() => setOpen(!open)}
             aria-expanded={open}
-            className="flex justify-between items-center gap-3 text-left"
+            className="flex justify-between w-full items-center gap-3 text-left"
           >
             Professional summary
             <ChevronDown
@@ -114,9 +114,9 @@ export default function ProfessionalSummary() {
         {!editing && (
           <button
             onClick={handleClick}
-            className="rounded-lg border border-primary px-3 text-sm text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
+            className="outlineBtn"
           >
-            {workerProfile ? "Edit" : "Add"}
+            {workerProfile ? "Edit" : "+ Add"}
           </button>
         )}
       </div>
