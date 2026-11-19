@@ -1,7 +1,8 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { Wrench, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ProfileSectionHeading } from "../ProfileSectionHeading";
 
 export default function Skills() {
   const [open, setOpen] = useState(false);
@@ -82,44 +83,39 @@ export default function Skills() {
   return (
     <section className="mt-6 rounded-2xl border border-border bg-surface p-4 sm:p-6 md:mt-10">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="flex-1 font-logo text-xl font-bold text-primary">
-          <button
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            className="flex items-center justify-between w-full gap-3 text-left"
-          >
-            My Skills
-            <ChevronDown
-              className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-            />
-          </button>
-        </h2>
+        <ProfileSectionHeading
+          title="My Skills"
+          description=" Highlight your technical and professional abilities."
+          icon={Wrench}
+          open={open}
+          onToggle={() => setOpen(!open)}
+        />
       </div>
 
       <div
         className={`gridWrap ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
       >
         <div className="overflow-hidden" inert={!open}>
-          <div className="mt-4 space-y-4">
+          <div className="mt-5 space-y-4">
             {skills.length < 1 ? (
-              <p className="text-foreground/70">
+              <p className="text-sm text-foreground/70">
                 You have not added any skills
               </p>
             ) : (
-              <ul className="flex flex-wrap gap-x-4 gap-y-2 text-foreground/80">
+              <ul className="flex flex-wrap gap-2">
                 {skills.map((skill) => (
                   <li
                     key={skill.id}
-                    className="flex items-center gap-1 border border-primary/5 px-1 rounded-2xl"
+                    className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-background py-1 pl-3 pr-1 text-xs font-medium text-foreground/80"
                   >
                     {skill.name}
                     <button
                       type="button"
                       aria-label={`Remove ${skill.name}`}
                       onClick={() => handleDelete(skill.id)}
-                      className="px-1 text-primary transition-colors duration-300 hover:text-accent"
+                      className="flex h-5 w-5 items-center justify-center rounded-full transition-colors hover:bg-primary hover:text-background"
                     >
-                      ×
+                      <X size={13} />
                     </button>
                   </li>
                 ))}

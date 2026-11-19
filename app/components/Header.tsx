@@ -4,42 +4,43 @@ import Button from "./Button";
 import MobileMenu from "./MobileMenu";
 import { getSession } from "@/src/lib/session";
 import LogoutButton from "./LogoutButton";
-
+import HeaderProfile from "./HeaderProfile";
 
 const links = [
   { href: "/jobs", label: "Find a Job" },
   { href: "/workers", label: "Find a Worker" },
   { href: "/post", label: "Post a Job" },
-]
+];
 
 export default async function Header() {
   const session = await getSession();
 
-
   return (
     <header className="sticky top-0 z-50 border-b-3 border-primary/10 bg-background/90 backdrop-blur-md">
-  <div className="relative mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4">
-    <Link
-      href="/"
-      className="font-logo text-2xl font-bold text-primary sm:text-3xl"
-    >
-      Shugli
-    </Link>
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4">
+        <Link
+          href="/"
+          className="font-logo text-2xl font-bold text-primary sm:text-3xl"
+        >
+          Shugli
+        </Link>
         <nav className="hidden text-primary font-medium text-lg md:flex gap-6">
           {links.map((link) => (
             <NavLink key={link.href} href={link.href}>
               {link.label}
             </NavLink>
           ))}
-          {!session ?
+
+          <HeaderProfile />
+
+          {/* {!session ?
             <Button href="/auth/LoginPage">Log In</Button>
             :
             <LogoutButton className="btn-primary" />
-          }
+          } */}
         </nav>
         <MobileMenu links={links} isLoggedIn={!!session} />
       </div>
-
     </header>
   );
 }

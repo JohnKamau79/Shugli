@@ -1,16 +1,6 @@
+import { sessionCheck } from "@/lib/utils/sessionCheck";
 import { prisma } from "@/src/lib/db/prisma";
 import { getSession } from "@/src/lib/session";
-
-{
-  /* id        Int
-    userId    Int
-    user      Users
-    institute String
-    level     EducationLevel
-    course    String
-    doEntry   DateTime
-    doExit    DateTime? */
-}
 
 export async function PATCH(
   request: Request,
@@ -56,4 +46,23 @@ export async function PATCH(
   });
 
   return Response.json(updatedEducation, { status: 200 });
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const userId = await sessionCheck();
+  if (userId instanceof Response) return userId;
+
+  const { id } = await params;
+
+  await prisma.workerEducation.deleteMany({
+    where: {
+      userId: userId,
+      id: Number(id),
+    },
+  });
+
+  return Response.json("Deleted successfully!");
 }

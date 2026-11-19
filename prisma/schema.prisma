@@ -54,6 +54,12 @@ enum EducationLevel {
   Doctorate_PHD
 }
 
+enum LanguageLevel {
+  Conversational
+  Intermediate
+  Fluent
+}
+
 model Users {
   id               Int               @id @default(autoincrement())
   firstName        String
@@ -75,9 +81,9 @@ model Users {
   applications     Application[]
   workExperiences  WorkExperience[]
   workerEducations WorkerEducation[]
-  languages        Languages[]
   // professionalSummaries ProfessionalSummary[]
   certifications   Certification[]
+  userLanguages    UserLanguages[]
 }
 
 model Category {
@@ -168,9 +174,20 @@ model WorkerEducation {
 // }
 
 model Languages {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  users Users[]
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  userLanguages UserLanguages[]
+}
+
+model UserLanguages {
+  id       Int           @id @default(autoincrement())
+  level    LanguageLevel
+  langId   Int
+  language Languages     @relation(fields: [langId], references: [id], onDelete: Cascade)
+  userId   Int
+  user     Users         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, langId])
 }
 
 model Application {
@@ -186,9 +203,9 @@ model Application {
 }
 
 model Certification {
-  id     Int    @id @default(autoincrement())
-  name   String
+  id        Int      @id @default(autoincrement())
+  name      String
   issueDate DateTime @db.Date
-  userId Int
-  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

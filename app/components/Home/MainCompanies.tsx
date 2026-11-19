@@ -4,7 +4,7 @@ export default async function MainCompanies() {
   const rows = await prisma.jobs.findMany({
     distinct: ["company"],
     select: { company: true },
-    where: { company: { not: null } },
+    // where: { company: { not: null } },
     orderBy: { createdAt: "desc" },
     take: 12,
   });

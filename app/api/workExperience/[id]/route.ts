@@ -1,3 +1,4 @@
+import { sessionCheck } from "@/lib/utils/sessionCheck";
 import { prisma } from "@/src/lib/db/prisma";
 import { getSession } from "@/src/lib/session";
 
@@ -51,4 +52,23 @@ export async function PATCH(
   });
 
   return Response.json(updatedExperience, { status: 200 });
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const userId = await sessionCheck();
+  if (userId instanceof Response) return userId;
+
+  const { id } = await params;
+
+  await prisma.workExperience.deleteMany({
+    where: {
+      userId: Number(userId),
+      id: Number(id),
+    },
+  });
+
+  return Response.json("Deleted successfully!");
 }

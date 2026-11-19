@@ -1,6 +1,6 @@
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
-import JobSearch from "./JobSearch";
+import JobSearch from "../JobSearch";
 import { Suspense } from "react";
 import { prisma } from "@/src/lib/db/prisma";
 

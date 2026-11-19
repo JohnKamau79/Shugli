@@ -1,12 +1,12 @@
-import MainLatestJobs from "../components/MainLatestJobs";
+import MainLatestJobs from "../components/Home/MainLatestJobs";
 import PlatformPricing from "../components/PlatformPricing";
-import MainCategories from "../components/MainCategories";
-import MainTotals from "../components/MainTotals";
-import Main from "../components/Main";
-import MainCompanies from "../components/MainCompanies";
-import MainUserReviews from "../components/MainUserReviews";
-import MainWhyChoose from "../components/MainWhyChoose";
-import MainCto from "../components/MainCto";
+import MainCategories from "../components/Home/MainCategories";
+import MainTotals from "../components/Home/MainTotals";
+import Main from "../components/Home/Main";
+import MainCompanies from "../components/Home/MainCompanies";
+import MainUserReviews from "../components/Home/MainUserReviews";
+import MainWhyChoose from "../components/Home/MainWhyChoose";
+import MainCto from "../components/Home/MainCto";
 
 export default async function Home() {
   return (

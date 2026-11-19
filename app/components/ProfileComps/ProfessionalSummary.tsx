@@ -1,7 +1,17 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Pencil,
+  Plus,
+  UserRound,
+  FileText,
+  CalendarDays,
+  Briefcase,
+  Folder,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { ProfileSectionHeading } from "../ProfileSectionHeading";
 
 export default function ProfessionalSummary() {
   const [editing, setEditing] = useState(false);
@@ -97,120 +107,202 @@ export default function ProfessionalSummary() {
   }
 
   return (
-    <section className="rounded-2xl border border-border bg-surface p-6">
+    <section className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
+      {/* Header */}
       <div className="flex items-center justify-between gap-3">
-        <h2 className="flex-1 font-logo text-xl font-bold text-primary">
-          <button
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            className="flex justify-between w-full items-center gap-3 text-left"
-          >
-            Professional summary
-            <ChevronDown
-              className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-            />
-          </button>
-        </h2>
+        <ProfileSectionHeading
+          title="Professional Summary"
+          description="Introduce yourself and highlight your professional background."
+          icon={BriefcaseBusiness}
+          open={open}
+          onToggle={() => setOpen(!open)}
+        />
+
         {!editing && (
           <button
             onClick={handleClick}
-            className="outlineBtn"
+            className="outlineBtn inline-flex shrink-0 items-center justify-center gap-2"
           >
-            {workerProfile ? "Edit" : "+ Add"}
+            {workerProfile ? (
+              <>
+                <Pencil size={14} />
+                Edit
+              </>
+            ) : (
+              <>
+                <Plus size={16} />
+                Add
+              </>
+            )}
           </button>
         )}
       </div>
 
+      {/* Content */}
       <div
-        className={`grid transition-[grid-template-rows] duration-300 ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+        className={`grid transition-[grid-template-rows] duration-300 ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
       >
         <div className="overflow-hidden" inert={!open}>
           {editing ? (
-            <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
-              <input
-                className="input"
-                type="text"
-                name="headline"
-                placeholder="Headline(e.g. Experienced carpenter)"
-                value={form.headline}
-                onChange={update}
-                required
-              />
-              <textarea
-                className="input min-h-28"
-                name="bio"
-                placeholder="Tell employers about yourself (max-400 chars)"
-                onChange={update}
-                value={form.bio}
-                required
-                maxLength={400}
-              />
-              <div className="grid gap-3 sm:grid-cols-2">
+            <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+              <div className="space-y-1.5">
+                <label className="flex items-center gap-2 text-sm font-medium text-primary">
+                  <Briefcase size={15} className="shrink-0 text-accent" />
+                  Professional headline
+                </label>
                 <input
-                  className="input"
-                  type="number"
-                  name="yoe"
-                  min={0}
-                  placeholder="Years of experience"
-                  value={form.yoe}
+                  className="input w-full"
+                  type="text"
+                  name="headline"
+                  placeholder="e.g. Experienced carpenter"
+                  value={form.headline}
                   onChange={update}
                   required
                 />
-                <select
-                  className="input"
-                  name="categoryId"
-                  value={form.categoryId}
-                  onChange={update}
-                  required
-                >
-                  <option value="" disabled>
-                    Category
-                  </option>
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
               </div>
 
-              {error && <p className="text-accent">{error}</p>}
+              <div className="space-y-1.5">
+                <label className="flex items-center gap-2 text-sm font-medium text-primary">
+                  <FileText size={15} className="shrink-0 text-accent" />
+                  About you
+                </label>
+                <textarea
+                  className="input min-h-32 w-full resize-y"
+                  name="bio"
+                  placeholder="Describe your skills, experience and what you bring to the job..."
+                  onChange={update}
+                  value={form.bio}
+                  required
+                  maxLength={400}
+                />
+                <p className="text-right text-xs text-muted-foreground">
+                  {form.bio.length}/400 characters
+                </p>
+              </div>
 
-              <div className="flex gap-3">
-                <button className="formBtn" type="submit" disabled={loading}>
-                  {loading ? "Saving..." : "Save"}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <label className="flex items-center gap-2 text-sm font-medium text-primary">
+                    <CalendarDays size={15} className="shrink-0 text-accent" />
+                    Years of experience
+                  </label>
+                  <input
+                    className="input w-full"
+                    type="number"
+                    name="yoe"
+                    min={0}
+                    placeholder="e.g. 5"
+                    value={form.yoe}
+                    onChange={update}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="flex items-center gap-2 text-sm font-medium text-primary">
+                    <Folder size={15} className="shrink-0 text-accent" />
+                    Professional category
+                  </label>
+                  <select
+                    className="input w-full"
+                    name="categoryId"
+                    value={form.categoryId}
+                    onChange={update}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select category
+                    </option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {error && (
+                <p className="rounded-lg bg-accent/10 p-3 text-sm text-accent">
+                  {error}
+                </p>
+              )}
+
+              <div className="flex flex-wrap gap-3 border-t border-border pt-4">
+                <button
+                  className="formBtn inline-flex items-center justify-center gap-2"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? "Saving..." : "Save summary"}
                 </button>
+
                 <button
                   type="button"
                   onClick={() => {
                     setEditing(false);
                     setError("");
                   }}
-                  className="rounded-lg border border-primary text-primary px-4 py-2"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-background"
                 >
+                  <X size={16} />
                   Cancel
                 </button>
               </div>
             </form>
           ) : !workerProfile ? (
-            <p className="mt-3 space-y-3">
-              You haven&apos;t added a professional summary yet!
-            </p>
-          ) : (
-            <div className="mt-3 space-y-3">
-              <p className="text-lg font-semibold">{workerProfile.headline}</p>
-              <div className="flex flex-wrap gap-2">
-                <span className=" rounded-2xl bg-primary text-primary-foreground px-3 text-sm">
-                  {workerProfile.category.name}
-                </span>
-                <span className="rounded-2xl border border-primary/40 bg-background px-3 text-sm text-primary">
-                  {workerProfile.yoe}{" "}
-                  {workerProfile.yoe === 1 ? "year" : "years"} experience
-                </span>
-              </div>
-              <p className="whitespace-pre-line text-foreground/80">
-                {workerProfile.bio}
+            <div className="mt-5 rounded-xl border border-dashed border-border px-4 py-8 text-center">
+              <BriefcaseBusiness className="mx-auto mb-3 h-9 w-9 text-muted-foreground/50" />
+
+              <p className="font-semibold text-primary">
+                No professional summary yet
               </p>
+
+              <p className="mt-1 text-sm text-muted-foreground">
+                Add a summary to introduce yourself and highlight your
+                professional experience.
+              </p>
+
+              <button
+                onClick={handleClick}
+                className="outlineBtn mt-4 inline-flex items-center justify-center gap-2"
+              >
+                <Plus size={16} />
+                Add summary
+              </button>
+            </div>
+          ) : (
+            <div className="mt-5 space-y-4">
+              <div>
+                <p className="text-lg font-bold leading-snug text-primary sm:text-xl">
+                  {workerProfile.headline}
+                </p>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground">
+                    <Folder size={13} />
+                    {workerProfile.category.name}
+                  </span>
+
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-background px-3 py-1.5 text-xs font-medium text-primary">
+                    <CalendarDays size={13} />
+                    {workerProfile.yoe}{" "}
+                    {workerProfile.yoe === 1 ? "year" : "years"} experience
+                  </span>
+                </div>
+              </div>
+
+              <div className="border-t border-border pt-4">
+                <p className="mb-2 flex items-center gap-2 text-sm font-medium text-primary">
+                  <UserRound size={15} className="shrink-0 text-accent" />
+                  About
+                </p>
+                <p className="whitespace-pre-line text-sm leading-7 text-foreground/80">
+                  {workerProfile.bio}
+                </p>
+              </div>
             </div>
           )}
         </div>

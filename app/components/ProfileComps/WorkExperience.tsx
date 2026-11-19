@@ -2,14 +2,27 @@
 
 import formatDate from "@/lib/utils/format";
 import { clean } from "@/lib/utils/trim";
-import { ChevronDown } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Pencil,
+  Plus,
+  Building2,
+  CalendarDays,
+  MapPin,
+  Wrench,
+  Trophy,
+  X,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import { ProfileSectionHeading } from "../ProfileSectionHeading";
 
 export default function WorkExperience() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<number | "new" | null>(null);
   const [open, setOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const [workExperience, setWorkExperience] = useState<
     {
@@ -162,29 +175,53 @@ export default function WorkExperience() {
     }
   }
 
+  async function handleDelete(id: number) {
+    setError("");
+    setDeletingId(id);
+
+    try {
+      const res = await fetch(`/api/workExperience/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data?.error ?? "Failed to delete language.");
+        return;
+      }
+
+      setWorkExperience((prev) =>
+        prev.filter((experience) => experience.id !== id),
+      );
+    } catch {
+      setError("Could not connect to the server.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   return (
-    <section className="mt-6 rounded-2xl border border-border bg-surface p-4 sm:p-6 md:mt-10">
+    <section className="mt-6 rounded-2xl border border-border bg-surface p-4 sm:mt-10 sm:p-6 md:mt-10">
       <div className="flex items-center justify-between gap-3">
-        <h2 className=" flex-1 font-logo text-xl font-bold text-primary">
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            className="flex items-center justify-between w-full gap-3 text-left"
-          >
-            Work Experience
-            <ChevronDown
-              className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-            />
-          </button>
-        </h2>
+        <ProfileSectionHeading
+          title="Work Experience"
+          description="Showcase your previous roles, responsibilities and achievements."
+          icon={BriefcaseBusiness}
+          open={open}
+          onToggle={() => setOpen(!open)}
+        />
         {editingId === null && (
           <button
             type="button"
             onClick={handleAddExperience}
-            className="outlineBtn"
+            className="outlineBtn inline-flex shrink-0 items-center justify-center gap-2"
           >
-            + Add
+            <Plus size={16} />
+            Add
           </button>
         )}
       </div>
@@ -196,79 +233,135 @@ export default function WorkExperience() {
           {editingId !== null ? (
             <form
               onSubmit={(e) => handleSubmit(e, editingId)}
-              className="mt-4 flex flex-col gap-4"
+              className="mt-5 space-y-5"
             >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <input
-                  className="input"
-                  type="text"
-                  name="jobTitle"
-                  placeholder="Job title"
-                  value={form.jobTitle}
-                  onChange={update}
-                  required
-                />
-                <input
-                  className="input"
-                  type="text"
-                  name="company"
-                  placeholder="Company name"
-                  value={form.company}
-                  onChange={update}
-                  required
-                />
-              </div>
+              <div className="space-y-4">
+                <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground/70">
+                  <BriefcaseBusiness
+                    size={16}
+                    className="shrink-0 text-accent"
+                  />
+                  Employment details
+                </h3>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="flex flex-col gap-1 text-sm text-foreground/70">
-                  Start date
-                  <input
-                    className="input"
-                    type="date"
-                    name="doEntry"
-                    value={form.doEntry}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <label className="flex items-center gap-2 text-sm font-medium text-foreground/70">
+                      <BriefcaseBusiness
+                        size={14}
+                        className="shrink-0 text-accent"
+                      />
+                      Job title
+                    </label>
+                    <input
+                      className="input w-full"
+                      type="text"
+                      name="jobTitle"
+                      placeholder="e.g. Software Developer"
+                      value={form.jobTitle}
+                      onChange={update}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="flex items-center gap-2 text-sm font-medium text-foreground/70">
+                      <Building2 size={14} className="shrink-0 text-accent" />
+                      Company
+                    </label>
+                    <input
+                      className="input w-full"
+                      type="text"
+                      name="company"
+                      placeholder="Company name"
+                      value={form.company}
+                      onChange={update}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <label className="flex items-center gap-2 text-sm font-medium text-foreground/70">
+                      <CalendarDays
+                        size={14}
+                        className="shrink-0 text-accent"
+                      />
+                      Start date
+                    </label>
+                    <input
+                      className="input w-full"
+                      type="date"
+                      name="doEntry"
+                      value={form.doEntry}
+                      onChange={update}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="flex items-center gap-2 text-sm font-medium text-foreground/70">
+                      <CalendarDays
+                        size={14}
+                        className="shrink-0 text-accent"
+                      />
+                      End date
+                    </label>
+                    <input
+                      className="input w-full"
+                      type="date"
+                      name="doExit"
+                      value={form.doExit}
+                      onChange={update}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Leave empty if this is your current job.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="flex items-center gap-2 text-sm font-medium text-foreground/70">
+                    <MapPin size={14} className="shrink-0 text-accent" />
+                    City
+                  </label>
+                  <select
+                    className="input w-full"
+                    name="cityId"
+                    value={form.cityId}
                     onChange={update}
                     required
-                  />
-                </label>
-                <label className="flex flex-col gap-1 text-sm text-foreground/70">
-                  End date (leave empty if current)
-                  <input
-                    className="input"
-                    type="date"
-                    name="doExit"
-                    value={form.doExit}
-                    onChange={update}
-                  />
-                </label>
+                  >
+                    <option value="" disabled>
+                      Select city
+                    </option>
+                    {cities.map((city) => (
+                      <option key={city.id} value={city.id}>
+                        {city.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <select
-                className="input"
-                name="cityId"
-                value={form.cityId}
-                onChange={update}
-                required
-              >
-                <option value="" disabled>
-                  City
-                </option>
-                {cities.map((city) => (
-                  <option key={city.id} value={city.id}>
-                    {city.name}
-                  </option>
-                ))}
-              </select>
+              {/* Skills */}
+              <div className="space-y-2 border-t border-border pt-4">
+                <div>
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground/70">
+                    <Wrench size={15} className="shrink-0 text-accent" />
+                    Skills
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Add skills relevant to this position.
+                  </p>
+                </div>
 
-              <div className="space-y-2">
-                <p className="text-sm font-semibold text-foreground/80">
-                  Skills
-                </p>
                 <div className="flex gap-2">
                   <input
-                    className="input min-w-0 flex-1"
+                    className="input min-w-0 w-full"
                     type="text"
-                    placeholder="Add a skill"
+                    placeholder="e.g. CAD, TypeScript"
                     value={skillInput}
                     onChange={(e) => setSkillInput(e.target.value)}
                     onKeyDown={(e) => {
@@ -281,25 +374,26 @@ export default function WorkExperience() {
                   <button
                     type="button"
                     onClick={addSkill}
-                    className="outlineBtn"
+                    className="outlineBtn inline-flex shrink-0 items-center justify-center gap-1.5"
                   >
+                    <Plus size={15} />
                     Add
                   </button>
                 </div>
 
                 {form.skills.length > 0 && (
-                  <ul className="flex flex-wrap gap-2">
+                  <ul className="flex flex-wrap gap-2 pt-1">
                     {form.skills.map((skill, index) => (
                       <li
                         key={index}
-                        className="flex items-center gap-1 rounded-2xl border border-primary/40 bg-background py-0.5 pl-3 pr-1 text-sm text-primary"
+                        className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-background py-1 pl-3 pr-1 text-xs font-medium text-foreground/70"
                       >
                         {skill}
                         <button
                           type="button"
                           aria-label={`Remove ${skill}`}
                           onClick={() => removeSkill(index)}
-                          className="rounded-full px-2 transition-colors hover:bg-primary hover:text-primary-foreground"
+                          className="flex h-5 w-5 items-center justify-center rounded-full transition-colors hover:bg-primary hover:text-foreground/70-foreground"
                         >
                           ×
                         </button>
@@ -309,13 +403,21 @@ export default function WorkExperience() {
                 )}
               </div>
 
-              <div className="space-y-2">
-                <p className="text-sm font-semibold text-foreground/80">
-                  Achievements
-                </p>
+              {/* Achievements */}
+              <div className="space-y-2 border-t border-border pt-4">
+                <div>
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground/70">
+                    <Trophy size={15} className="shrink-0 text-accent" />
+                    Achievements
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Highlight your contributions and accomplishments.
+                  </p>
+                </div>
+
                 <div className="flex gap-2">
                   <input
-                    className="input min-w-0 flex-1"
+                    className="input min-w-0 w-full"
                     type="text"
                     placeholder="Add an achievement"
                     value={achievementInput}
@@ -330,26 +432,27 @@ export default function WorkExperience() {
                   <button
                     type="button"
                     onClick={addAchievement}
-                    className="outlineBtn"
+                    className="outlineBtn inline-flex shrink-0 items-center justify-center gap-1.5"
                   >
+                    <Plus size={15} />
                     Add
                   </button>
                 </div>
 
                 {form.achievements.length > 0 && (
-                  <ul className="space-y-2">
+                  <ul className="space-y-2 pt-1">
                     {form.achievements.map((achievement, index) => (
                       <li
                         key={index}
-                        className="flex items-start justify-between gap-3 rounded-lg bg-background px-3 py-2 text-sm"
+                        className="flex items-start justify-between gap-3 rounded-lg border border-border bg-background px-3 py-2.5 text-sm"
                       >
-                        <span className="min-w-0 wrap-break-word">
+                        <span className="min-w-0 wrap-break-word text-foreground/80">
                           {achievement}
                         </span>
                         <button
                           type="button"
                           onClick={() => removeAchievement(index)}
-                          className="shrink-0 text-primary underline"
+                          className="shrink-0 text-xs font-medium text-primary transition-colors hover:underline"
                         >
                           Remove
                         </button>
@@ -359,10 +462,18 @@ export default function WorkExperience() {
                 )}
               </div>
 
-              {error && <p className="text-accent">{error}</p>}
+              {error && (
+                <p className="rounded-lg bg-accent/10 p-3 text-sm text-accent">
+                  {error}
+                </p>
+              )}
 
               <div className="flex gap-3">
-                <button disabled={loading} type="submit" className="formBtn">
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="formBtn inline-flex items-center justify-center gap-2"
+                >
                   {loading ? "Saving..." : "Save"}
                 </button>
                 <button
@@ -371,8 +482,9 @@ export default function WorkExperience() {
                     setEditingId(null);
                     setError("");
                   }}
-                  className="rounded-lg border border-primary/40 px-4 py-2 text-primary transition-colors hover:bg-background"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary/40 px-4 py-2 text-primary transition-colors hover:bg-background"
                 >
+                  <X size={16} />
                   Cancel
                 </button>
               </div>
@@ -396,26 +508,40 @@ export default function WorkExperience() {
                     <h3 className="min-w-0 wrap-break-word text-lg font-semibold">
                       {experience.jobTitle}
                     </h3>
-                    <button
-                      type="button"
-                      onClick={() => handleClick(experience)}
-                      className="outlineBtn"
-                    >
-                      Edit
-                    </button>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => handleClick(experience)}
+                        type="button"
+                      >
+                        <Pencil className="border border-foreground/10 rounded-md p-1 transition-colors duration-300 hover:text-accent hover:bg-accent/10 hover:border-accent/50" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(experience.id)}
+                        disabled={deletingId !== null}
+                      >
+                        <Trash2 className="border border-foreground/10 rounded-md p-1 transition-colors duration-300 hover:text-accent hover:bg-accent/10 hover:border-accent/50" />
+                      </button>
+                    </div>
                   </div>
 
-                  <p className="wrap-break-word text-foreground/70 font-semibold">
-                    {experience.company} · {experience.city.name}
+                  <p className="flex flex-wrap items-center gap-1.5 wrap-break-word font-semibold text-foreground/70">
+                    <Building2 size={14} className="shrink-0 text-accent" />
+                    {experience.company}
+                    <span>·</span>
+                    <MapPin size={14} className="shrink-0 text-accent" />
+                    {experience.city.name}
                   </p>
-                  <p className="text-sm text-foreground/60">
+                  <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm text-foreground/60">
+                    <CalendarDays size={14} className="shrink-0" />
                     {formatDate(new Date(experience.doEntry))} –{" "}
                     {experience.doExit
                       ? formatDate(new Date(experience.doExit))
                       : "Present"}
                   </p>
                   {experience.skills.length > 0 && (
-                    <p className="mt-3 text-foreground/80">
+                    <p className="mt-3 flex flex-wrap items-start gap-1.5 text-foreground/80">
+                      <Wrench size={15} className="mt-1 shrink-0 text-accent" />
                       <span className="font-semibold text-foreground/80">
                         Skills:
                       </span>{" "}
@@ -424,13 +550,19 @@ export default function WorkExperience() {
                   )}
 
                   {experience.achievements.length > 0 && (
-                    <ul className="mt-3 list-disc space-y-1 pl-5 text-foreground/80">
-                      {experience.achievements.map((achievement, id) => (
-                        <li key={id} className="wrap-break-word">
-                          {achievement}
-                        </li>
-                      ))}
-                    </ul>
+                    <>
+                      <p className="mt-3 flex items-center gap-2 font-semibold text-foreground/80">
+                        <Trophy size={15} className="shrink-0 text-accent" />
+                        Achievements
+                      </p>
+                      <ul className="mt-2 list-disc space-y-1 pl-5 text-foreground/80">
+                        {experience.achievements.map((achievement, id) => (
+                          <li key={id} className="wrap-break-word">
+                            {achievement}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
                   )}
                 </li>
               ))}

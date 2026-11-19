@@ -34,8 +34,11 @@ export async function PATCH(
   return Response.json(update);
 }
 
-export async function DELETE(request: Request, {params}: {params: Promise<{id: string}>}) {
-    const userId = await sessionCheck();
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const userId = await sessionCheck();
 
   if (userId instanceof Response) return userId;
 
@@ -44,10 +47,10 @@ export async function DELETE(request: Request, {params}: {params: Promise<{id: s
 
   await prisma.certification.deleteMany({
     where: {
-        id: certId,
-        userId: Number(userId)
-    }
+      id: certId,
+      userId: Number(userId),
+    },
   });
 
-  return Response.json("Deleted successfully")
+  return Response.json("Deleted successfully");
 }
