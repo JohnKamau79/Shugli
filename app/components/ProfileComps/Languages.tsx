@@ -64,7 +64,7 @@ export default function Languages() {
     setForm({ langId: "", level: "" });
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
     if (!form.langId || !form.level) {

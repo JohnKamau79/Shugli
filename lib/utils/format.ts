@@ -12,5 +12,9 @@ export default function formatDate(date: Date) {
     if (created.getTime() === today.getTime()) return "Today"
     if (created.getTime() === yesterday.getTime()) return "Yesterday"
 
-    return created.toLocaleDateString();
+    return created.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    });
 }

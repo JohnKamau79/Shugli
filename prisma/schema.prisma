@@ -84,6 +84,7 @@ model Users {
   // professionalSummaries ProfessionalSummary[]
   certifications   Certification[]
   userLanguages    UserLanguages[]
+  savedJobs        SavedJobs[]
 }
 
 model Category {
@@ -120,6 +121,19 @@ model Jobs {
   updatedAt    DateTime      @updatedAt
   expiresAt    DateTime?
   applications Application[]
+  savedJobs    SavedJobs[]
+}
+
+model SavedJobs {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  jobId     Int
+  createdAt DateTime @default(now())
+
+  user Users @relation(fields: [userId], references: [id])
+  job  Jobs  @relation(fields: [jobId], references: [id])
+
+  @@unique([userId, jobId])
 }
 
 model Skills {
@@ -165,13 +179,6 @@ model WorkerEducation {
   doEntry   DateTime
   doExit    DateTime?
 }
-
-// model ProfessionalSummary {
-//   id      Int    @id @default(autoincrement())
-//   summary String
-//   userId  Int
-//   user    Users  @relation(fields: [userId], references: [id])
-// }
 
 model Languages {
   id            Int             @id @default(autoincrement())

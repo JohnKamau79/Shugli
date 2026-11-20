@@ -2,10 +2,11 @@ import formatDate from "@/lib/utils/format";
 import { prisma } from "@/src/lib/db/prisma";
 import { JobType, Duration } from "@/src/generated/prisma/client";
 import type { Prisma } from "@/src/generated/prisma/client";
-import { ArrowRightIcon, MapPinIcon, SearchXIcon } from "lucide-react";
+import { MapPinIcon, SearchXIcon } from "lucide-react";
 import Link from "next/link";
 import JobSearch from "../../components/JobSearch";
 import { Suspense } from "react";
+import SaveShareJobs from "@/app/components/SaveShareJobs";
 
 type Props = {
   searchParams: Promise<{
@@ -158,7 +159,9 @@ export default async function Jobs({ searchParams }: Props) {
                         {job.city.name}
                       </p>
                     </div>
-                    <ArrowRightIcon className="size-4 shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-1" />
+                    <div>
+                      <SaveShareJobs id={job.id} />
+                    </div>
                   </div>
 
                   <h3 className="mt-2 line-clamp-1 text-base font-semibold leading-snug">

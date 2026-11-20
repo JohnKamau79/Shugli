@@ -18,7 +18,7 @@ export default function Skills() {
   useEffect(() => {
     fetch("/api/userSkills")
       .then((r) => r.json())
-      .then(setSkills)
+      .then((d) => Array.isArray(d) && setSkills(d))
       .catch(() => {});
   }, []);
 

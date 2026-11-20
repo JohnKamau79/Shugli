@@ -3,6 +3,9 @@ import { getSession } from "@/src/lib/session";
 
 export default async function PersonalInfo() {
   const session = await getSession();
+  if(!session) {
+    return
+  }
   const user = await prisma.users.findUnique({
     where: {
       id: session?.userId,
@@ -15,6 +18,10 @@ export default async function PersonalInfo() {
       },
     },
   });
+
+  if(!user) {
+    return null
+  }
 
   return (
     <section className="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-3">

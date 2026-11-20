@@ -9,6 +9,7 @@ import {
   CalendarDays,
   Briefcase,
   Folder,
+  X,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { ProfileSectionHeading } from "../ProfileSectionHeading";

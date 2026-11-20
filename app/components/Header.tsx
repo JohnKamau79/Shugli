@@ -1,9 +1,7 @@
 import Link from "next/link";
 import NavLink from "./NavLink";
-import Button from "./Button";
 import MobileMenu from "./MobileMenu";
 import { getSession } from "@/src/lib/session";
-import LogoutButton from "./LogoutButton";
 import HeaderProfile from "./HeaderProfile";
 
 const links = [
@@ -32,12 +30,6 @@ export default async function Header() {
           ))}
 
           <HeaderProfile />
-
-          {/* {!session ?
-            <Button href="/auth/LoginPage">Log In</Button>
-            :
-            <LogoutButton className="btn-primary" />
-          } */}
         </nav>
         <MobileMenu links={links} isLoggedIn={!!session} />
       </div>
